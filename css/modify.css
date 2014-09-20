@@ -1,10 +1,29 @@
 
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,700,600);
+
+#hd {
+	height: 75px !important;
+	margin-top: -12px;
+	z-index: 100;
+}
+
+.main-content {
+	width: 65%;
+	float: left;
+}
+
+#footer {
+	clear: both;
+	float: left;
+	width: 65%;
+}
+
 .added-description {
 	position: fixed;
 	width: 32%;
 	top: 0;
 	bottom: 0;
-	left: 0;
+	right: 0;
 	/* Commenting out the original img url as a backup */
 	/* 
 	background-image: url('http://upload.wikimedia.org/wikipedia/commons/3/30/Cinemaaustralia.jpg');
@@ -33,17 +52,16 @@
 .img-injected {
 	margin-top: 100px;
 	margin-left: 30px;
-	width: 45%;
+	width: 35%;
 	float: left;
 }
 
 .info-blob {
-	float: left;
-	width: 40%;
-	margin-top: 100px;
-	margin-left: 4%;
+	clear: both;
+	margin-left: 30px;
+	font-family: 'Open Sans', 'Arial', sans-serif;
 	color: rgba(245,245,245, 0.9);
-	margin-right: 3%;
+	padding-top: 40px;
 }
 
 .movie-title {
@@ -59,11 +77,17 @@
 }
 
 .ratings {
-	color: white;
-	clear: both;
-	position: absolute;
-	top: 420px;
-	left: 30px;
+	color: rgba(245,245,245, 0.9);
+	float: left;
+	width: 50%;
+	margin-top: 100px;
+	margin-left: 4%;
+	font-family: 'Open Sans', 'Arial', sans-serif;
+}
+
+.rt-rating,
+.mc-rating {
+	padding-top: 20px;
 }
 
 .imdb-number {
@@ -80,11 +104,31 @@
 
 .rate {
 	display: block;
-	padding-left: 40px;
-	height: 40px;
+	padding-left: 46px;
+	height: 35px;
 	background-repeat: no-repeat;
 	background-size: contain;
 	margin-bottom: 10px;
+	font-size: 30px;
+	font-weight: 600;
+	position: relative;
 }
 
+
+.user-base {
+	position: absolute;
+	top: -13px;
+	left: 46px;
+	font-size: 12px;
+	color: rgba(255,255,255,0.8);
+	font-weight: 300;
+}
+
+.user-base:nth-of-type(2) {
+	left: 95px;
+}
+
+.second-rating {
+	margin-left: 15px;
+}
 
