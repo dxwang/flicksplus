@@ -37,6 +37,7 @@
 	height: 100%;	
 	position: relative;
 	background-color: rgba(0,0,0, 0.75);
+	padding-right: 30px;
 }
 
 .opening-title {
@@ -54,26 +55,6 @@
 	margin-left: 30px;
 	width: 35%;
 	float: left;
-}
-
-.info-blob {
-	clear: both;
-	margin-left: 30px;
-	font-family: 'Open Sans', 'Arial', sans-serif;
-	color: rgba(245,245,245, 0.9);
-	padding-top: 40px;
-}
-
-.movie-title {
-	font-size: 22px;
-	margin-bottom: 20px;
-	font-weight: 600;
-}
-
-.directed-by, 
-.starring, 
-.year-produced {
-	margin-bottom: 11px
 }
 
 .ratings {
@@ -132,3 +113,71 @@
 	margin-left: 15px;
 }
 
+.info-blob {
+	clear: both;
+	margin: 0 30px;
+	font-family: 'Open Sans', 'Arial', sans-serif;
+	color: rgba(245,245,245, 0.9);
+	padding-top: 40px;
+	font-size: 16px;
+	font-weight: 300;
+}
+
+.movie-title {
+	font-size: 28px;
+	margin-bottom: 20px;
+	font-weight: 600;
+}
+
+.directed-by, 
+.starring, 
+.year-produced {
+	margin-bottom: 11px;
+	font-weight: 600;
+	font-size: 12px;
+}
+
+.directed-by span,
+.starring span {
+	font-weight: 300;
+}
+
+.year-produced span {
+	margin-left: 10px;
+}
+
+.info-description {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+.more-info-link {
+	color: rgba(245,245,245, 0.9);
+	text-decoration: underline;
+}
+
+.awards {
+	margin: 20px 30px; 
+	margin-top: 40px;
+}
+
+.award-icon {
+	width: 20px;
+	height: 30px;
+	display: inline-block;
+	background-size: contain;
+	background-repeat: no-repeat;
+	opacity: 0.7;
+}
+
+.oscar {
+	background-image: url('../img/oscars-icon.png');
+}
+
+.golden {
+	background-image: url('../img/golden-icon.png');
+}
+
+.emmy {
+	background-image: url('../img/emmys-icon.png');
+}
