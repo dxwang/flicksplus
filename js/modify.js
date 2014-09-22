@@ -22,6 +22,9 @@ var metaUserRating = "94";
 var infoDescription = "When his manic radio show proves a morale-booster, an Armed Forces Radio DJ gets sent to Vietnam, where his act lands him in trouble with superiors.";
 var moreInfoLink = "#";
 
+var myListLink = "#";
+var recommendLink = "#";
+
 // Wrapping code in a self-executing function below to enable the private use of the $
 
 (function($){
@@ -34,12 +37,13 @@ var moreInfoLink = "#";
 		openTitle.hide();
 
 		var img = $(this).find('.boxShotImg').clone().addClass("img-injected");
-		$(".nested-div").find(".img-injected, .info-blob, .ratings, .awards").remove();
+		$(".nested-div").find(".img-injected, .info-blob, .ratings, .my-options, .awards").remove();
 
 		img.appendTo($(".nested-div"));
 		$(".nested-div").append('<div class="ratings"><div class="imdb-rating"><span class="rate imdb-number">'+ imdbRating +'</span></div><div class="rt-rating"><span class="rate rt-number"><span class="user-base">Critics:</span>'+ rottenCriticRating +'<span class="user-base">Users:</span><span class="second-rating">'+ rottenAudienceRating +'</span></span></div><div class="mc-rating"><span class="rate mc-number"><span class="user-base">Critics:</span> '+ metaCriticRating +'<span class="user-base">User:</span><span class="second-rating">'+ metaUserRating +'</span></span></div></div>');
 		$("<div class='info-blob'><div class='movie-title'>" + movieTitle + "</div><div class='directed-by'><span>Director:</span> " + directedBy + "</div><div class='starring'><span>Starring:</span> " + starring + "</div><div class='year-produced'>" + yearProduced + "<span class='duration'>"+ durationOrSeason +"</span><span class='maturity-rating'>" + maturityRating + "</span></div><div class='info-description'>" + infoDescription + " <a class='more-info-link' href='"+ moreInfoLink +"'>More Info</a></div></div>").appendTo('.nested-div');
 		$('<div class="awards"></div>').appendTo($(".nested-div"));
+		$('<div class="my-options"><a class="new-my-list" href="'+myListLink+'">My List</a><a class="new-recommend" href="'+recommendLink+'">Recommend</a></div>').appendTo('.nested-div');
 
 		for (i=0; i<numOscars; i++){
 			$('<span class="oscar award-icon"></span>').appendTo($('.awards'));
