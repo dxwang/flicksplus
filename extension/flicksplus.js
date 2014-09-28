@@ -1,4 +1,7 @@
 function flicksplus() {
+    this.omdbReq = null;
+    this.rtReq = null;
+    this.metaReq = null;
 
     this.checkName = function(name1, name2) {
         return name1 && name2 && (name1.toUpperCase().indexOf(name2.toUpperCase()) > -1 ||
@@ -9,14 +12,27 @@ function flicksplus() {
         $('.connect-overlay.connect').remove();
         $('<div class="added-description"><div class="nested-div"><h2 class="opening-title">What would you like to watch today?</h2></div></div>').appendTo('body');
     
-        this.attachHoverHandler();
+        this.attachMouseOverHandler();
     }
 
-    this.attachHoverHandler = function(){
-        $(document).on('mouseover', '.boxShot', this.hoverHandler.bind(this));
+    this.attachMouseOverHandler = function(){
+        $(document).on('mouseover', '.boxShot', this.mouseOverHandler.bind(this));
     }
 
-    this.hoverHandler = function(e) {
+    this.cancelCurrentRequests = function() {
+        if (this.omdbReq) {
+            this.omdbReq.abort();
+        }
+        if (this.rtReq) {
+            this.rtReq.abort();
+        }
+        if (this.metaReq) {
+            this.metaReq.abort();
+        }
+    }
+
+    this.mouseOverHandler = function(e) {
+        this.cancelCurrentRequests();
         $('.opening-title').hide();
 
         var img = $(e.target).parent().find('.boxShotImg').clone().addClass("img-injected");
@@ -39,7 +55,7 @@ function flicksplus() {
         var flicksplus = this;
 
         var omdbRequestUrl = 'http://www.omdbapi.com/?t=' + movieName;
-        $.ajax({
+        this.omdbReq = $.ajax({
             type: "GET", 
             url: omdbRequestUrl, 
             dataType: 'json', 
@@ -75,7 +91,7 @@ function flicksplus() {
         var flicksplus = this;
 
         var rtRequestUrl = 'http://api.rottentomatoes.com/api/public/v1.0/movies.json?apikey=u4f7ar7byc87wg3qxs9u8ecm&q=' + encodeURIComponent(movieData.Title + ' ' + movieData.Year);
-        $.ajax({
+        this.rtReq = $.ajax({
             type: "GET",
             url: rtRequestUrl,
             dataType: 'json',
@@ -96,7 +112,7 @@ function flicksplus() {
         var flicksplus = this;
 
         var metaRequestUrl = 'https://byroredux-metacritic.p.mashape.com/find/movie';
-        $.ajax({
+        this.metaReq = $.ajax({
             type: 'POST',
             url: metaRequestUrl,
             dataType: 'json',
@@ -191,15 +207,17 @@ function flicksplus() {
     }
 
     this.injectAwardsData = function(info) {
+        var awardsContainer = '';
         for (i=0; i<info.numOscars; i++){
-            $('<span class="oscar award-icon"></span>').appendTo($('.awards'));
+            awardsContainer += '<span class="oscar award-icon"></span>';
         }
         for (i=0; i<info.numGoldens; i++){
-            $('<span class="golden award-icon"></span>').appendTo($('.awards'));
+            awardsContainer += '<span class="golden award-icon"></span>';
         }
         for (i=0; i<info.numEmmys; i++){
-            $('<span class="emmy award-icon"></span>').appendTo($('.awards'));
+            awardsContainer += '<span class="emmy award-icon"></span>';
         }
+        $('.awards').html(awardsContainer);
     }
 };
 
