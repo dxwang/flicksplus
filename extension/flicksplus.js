@@ -14,7 +14,7 @@ function flicksplus() {
     }
 
     this.attachHoverHandler = function(){
-        $('.boxShot').hover(this.hoverHandler.bind(this), function(){});
+        $(document).on('mouseover', '.boxShot', this.hoverHandler.bind(this));
     }
 
     this.hoverHandler = function(e) {
@@ -45,7 +45,6 @@ function flicksplus() {
             url: omdbRequestUrl, 
             dataType: 'json', 
             success: function(movieInfo){
-                console.log(movieInfo);
                 if (flicksplus.checkName(movieInfo.Title, flicksplus.movieName)) {
                     movieInfo['imdbRating'] = movieInfo['imdbRating'] || notAvailable;
                     movieInfo['Metascore'] = movieInfo['Metascore'] || notAvailable;
@@ -91,7 +90,6 @@ function flicksplus() {
             dataType: 'json',
             success: function(RTInfo) {
                 var infoObj = RTInfo.movies[0] || {};
-                console.log(infoObj);
                 if (flicksplus.checkName(movieData.Title, flicksplus.movieName)) {
                     var ratings = infoObj.ratings || {};
                     movieData['rtCriticsScore'] = ((ratings.critics_score > 0) ? ratings.critics_score : notAvailable);
