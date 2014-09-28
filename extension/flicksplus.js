@@ -1,4 +1,5 @@
 function flicksplus() {
+    var notAvailable = '<div class="not-available">N/A</div>';
 
     this.checkName = function(name1, name2) {
         return name1 && name2 && (name1.toUpperCase().indexOf(name2.toUpperCase()) > -1 ||
@@ -26,8 +27,8 @@ function flicksplus() {
 
         $('.nested-div').append(
             '<div class="ratings"></div>' +
-            '<div class="info-blob"></div>' + 
             '<div class="awards"></div>' +
+            '<div class="info-blob"></div>' + 
             '<div class="my-options"></div>');
 
         $('#BobMovie').remove();
@@ -46,6 +47,14 @@ function flicksplus() {
             success: function(movieInfo){
                 console.log(movieInfo);
                 if (flicksplus.checkName(movieInfo.Title, flicksplus.movieName)) {
+                    movieInfo['imdbRating'] = movieInfo['imdbRating'] || notAvailable;
+                    movieInfo['Metascore'] = movieInfo['Metascore'] || notAvailable;
+                    if (movieInfo['imdbRating'] === 'N/A') {
+                        movieInfo['imdbRating'] = notAvailable;
+                    }
+                    if (movieInfo['Metascore'] === 'N/A') {
+                        movieInfo['Metascore'] = notAvailable;
+                    }
                     flicksplus.displayAwardData(movieInfo['Awards']);
                     flicksplus.injectMovieData(movieInfo);
                     flicksplus.injectRatingsData(movieInfo);
@@ -85,8 +94,8 @@ function flicksplus() {
                 console.log(infoObj);
                 if (flicksplus.checkName(movieData.Title, flicksplus.movieName)) {
                     var ratings = infoObj.ratings || {};
-                    movieData['rtCriticsScore'] = ((ratings.critics_score > 0) ? ratings.critics_score : 'N/A');
-                    movieData['rtAudienceScore'] = ((ratings.audience_score > 0) ? ratings.audience_score : 'N/A');
+                    movieData['rtCriticsScore'] = ((ratings.critics_score > 0) ? ratings.critics_score : notAvailable);
+                    movieData['rtAudienceScore'] = ((ratings.audience_score > 0) ? ratings.audience_score : notAvailable);
                     flicksplus.injectRatingsData(movieData);
                     flicksplus.getMetaInfo(movieData);
                 }
@@ -111,8 +120,8 @@ function flicksplus() {
             success: function(metaInfo) {
                 var infoObj = (metaInfo.result || {});
                 if (flicksplus.checkName(movieData.Title, flicksplus.movieName)) {
-                    movieData['metascore'] = infoObj.score || 'N/A';
-                    movieData['metaUserScore'] = infoObj.userscore || 'N/A';
+                    movieData['metascore'] = infoObj.score || notAvailable;
+                    movieData['metaUserScore'] = infoObj.userscore || notAvailable;
                     flicksplus.injectRatingsData(movieData);
                 }
             }
