@@ -1,7 +1,9 @@
 function flicksplus() {
+    var flicksplus = this;
     this.omdbReq = null;
     this.rtReq = null;
     this.metaReq = null;
+    this.notAvailable = '<div class="not-available">N/A</div>';
 
     this.checkName = function(name1, name2) {
         return name1 && name2 && (name1.toUpperCase().indexOf(name2.toUpperCase()) > -1 ||
@@ -42,8 +44,8 @@ function flicksplus() {
 
         $('.nested-div').append(
             '<div class="ratings"></div>' +
-            '<div class="info-blob"></div>' + 
             '<div class="awards"></div>' +
+            '<div class="info-blob"></div>' + 
             '<div class="my-options"></div>');
 
         $('#BobMovie').remove();
@@ -52,8 +54,6 @@ function flicksplus() {
     }
 
     this.getMovieInfo = function(movieName) {
-        var flicksplus = this;
-
         var omdbRequestUrl = 'http://www.omdbapi.com/?t=' + movieName;
         this.omdbReq = $.ajax({
             type: "GET", 
@@ -61,6 +61,14 @@ function flicksplus() {
             dataType: 'json', 
             success: function(movieInfo){
                 if (flicksplus.checkName(movieInfo.Title, flicksplus.movieName)) {
+                    movieInfo['imdbRating'] = movieInfo['imdbRating'] || flicksplus.notAvailable;
+                    movieInfo['Metascore'] = movieInfo['Metascore'] || flicksplus.notAvailable;
+                    if (movieInfo['imdbRating'] === 'N/A') {
+                        movieInfo['imdbRating'] = flicksplus.notAvailable;
+                    }
+                    if (movieInfo['Metascore'] === 'N/A') {
+                        movieInfo['Metascore'] = flicksplus.notAvailable;
+                    }
                     flicksplus.displayAwardData(movieInfo['Awards']);
                     flicksplus.injectMovieData(movieInfo);
                     flicksplus.injectRatingsData(movieInfo);
@@ -88,8 +96,6 @@ function flicksplus() {
     }
 
     this.getRTInfo = function(movieData) {
-        var flicksplus = this;
-
         var rtRequestUrl = 'http://api.rottentomatoes.com/api/public/v1.0/movies.json?apikey=u4f7ar7byc87wg3qxs9u8ecm&q=' + encodeURIComponent(movieData.Title + ' ' + movieData.Year);
         this.rtReq = $.ajax({
             type: "GET",
@@ -99,8 +105,8 @@ function flicksplus() {
                 var infoObj = RTInfo.movies[0] || {};
                 if (flicksplus.checkName(movieData.Title, flicksplus.movieName)) {
                     var ratings = infoObj.ratings || {};
-                    movieData['rtCriticsScore'] = ((ratings.critics_score > 0) ? ratings.critics_score : 'N/A');
-                    movieData['rtAudienceScore'] = ((ratings.audience_score > 0) ? ratings.audience_score : 'N/A');
+                    movieData['rtCriticsScore'] = ((ratings.critics_score > 0) ? ratings.critics_score : flicksplus.notAvailable);
+                    movieData['rtAudienceScore'] = ((ratings.audience_score > 0) ? ratings.audience_score : flicksplus.notAvailable);
                     flicksplus.injectRatingsData(movieData);
                     flicksplus.getMetaInfo(movieData);
                 }
@@ -109,8 +115,6 @@ function flicksplus() {
     }
 
     this.getMetaInfo = function(movieData) {
-        var flicksplus = this;
-
         var metaRequestUrl = 'https://byroredux-metacritic.p.mashape.com/find/movie';
         this.metaReq = $.ajax({
             type: 'POST',
@@ -125,8 +129,8 @@ function flicksplus() {
             success: function(metaInfo) {
                 var infoObj = (metaInfo.result || {});
                 if (flicksplus.checkName(movieData.Title, flicksplus.movieName)) {
-                    movieData['metascore'] = infoObj.score || 'N/A';
-                    movieData['metaUserScore'] = infoObj.userscore || 'N/A';
+                    movieData['metascore'] = infoObj.score || flicksplus.notAvailable;
+                    movieData['metaUserScore'] = infoObj.userscore || flicksplus.notAvailable;
                     flicksplus.injectRatingsData(movieData);
                 }
             }

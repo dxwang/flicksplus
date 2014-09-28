@@ -7,8 +7,8 @@
   "content_scripts": [
     {
       "matches": [
-        "http://www.netflix.com/WiHome*",
-        "https://www.netflix.com/WiHome*"
+        "http://www.netflix.com/*",
+        "https://www.netflix.com/*"
       ],
       "js": ["jquery.min.js", "flicksplus.js"],
       "css": ["flicksplus.css"]
@@ -27,6 +27,7 @@
        "img/metacritic.png",
        "img/oscars-icon.png",
        "img/golden-icon.png",
-       "img/emmys-icon.png"
+       "img/emmys-icon.png",
+       "img/spinner.png"
   ]
 }
