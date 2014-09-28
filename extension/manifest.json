@@ -1,0 +1,32 @@
+{
+  "manifest_version": 2,
+
+  "name": "Flicks Plus",
+  "description": "A movie info enhancement for your favourite flicks sites.",
+  "version": "1.0",
+  "content_scripts": [
+    {
+      "matches": [
+        "http://www.netflix.com/WiHome*",
+        "https://www.netflix.com/WiHome*"
+      ],
+      "js": ["jquery.min.js", "flicksplus.js"],
+      "css": ["flicksplus.css"]
+    }
+  ], 
+  "permissions": [
+    "http://api.rottentomatoes.com/*"
+  ],
+  "browser_action": {
+    "default_title": "Flicks+ Enhancement"
+  },
+  "web_accessible_resources": [
+       "img/cinema-bg.jpg",
+       "img/imdb.png",
+       "img/rotten-tomatoes.png",
+       "img/metacritic.png",
+       "img/oscars-icon.png",
+       "img/golden-icon.png",
+       "img/emmys-icon.png"
+  ]
+}

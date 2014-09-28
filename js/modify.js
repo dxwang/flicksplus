@@ -34,7 +34,52 @@ var recommendLink = "#";
 	var openTitle = $('.opening-title');
 
 	$('.boxShot').on('hover', function(){
-		openTitle.hide();
+		var getTextFromObject = function(object) {
+			return object
+				.clone() // Clone the element.
+				.children() // Select the children.
+				.remove() // Remove the children.
+				.end() // Go back to the selected element.
+				.text() // Get the text of the element.
+				.trim(); // Trim the whitespace from the text
+		}
+
+		setTimeout(function() {
+			var infoObj = $('#BobMovie-content');
+			var movieTitle = getTextFromObject(infoObj.find('.title'));
+			var yearProduced = getTextFromObject(infoObj.find('.year'));
+			var duration = getTextFromObject(infoObj.find('.duration'));
+			console.log(movieTitle);
+			console.log(yearProduced);
+			console.log(duration);
+			var infoDescription = getTextFromObject(infoObj.find('.bobMovieContent'));
+			var actors = "";
+			var creators = "";
+			var imdbRating = "79";
+			var rottenCriticRating = "72";
+			var rottenAudienceRating = "90";
+			var metaCriticRating = "62";
+			var metaUserRating = "94";
+
+			// var omdbRequestUrl = 'http://www.omdbapi.com/?t=' + movieTitle;
+			// var rtRequestUrl = 'http://api.rottentomatoes.com/api/public/v1.0/movies.json?apikey=u4f7ar7byc87wg3qxs9u8ecm&q=' 
+			// + movieTitle
+			// + '&page_limit=1';
+			// jQuery.ajax({
+			// 	type: "GET", 
+			// 	url: omdbRequestUrl, 
+			// 	dataType: 'jsonp', 
+			// 	success: function(data){
+			// 		imdbRating = data.imdbRating;
+			// 		metaCriticRating = data.Metascore;
+			// 	}
+			// });
+
+			var numOscars = 2;
+			var numGoldens = 2;
+			var numEmmys = 2;
+
+			openTitle.hide();
 
 		var img = $(this).find('.boxShotImg').clone().addClass("img-injected");
 		$(".nested-div").find(".img-injected, .info-blob, .ratings, .my-options, .awards").remove();
