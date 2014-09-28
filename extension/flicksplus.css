@@ -1,0 +1,209 @@
+
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,700,600);
+
+#hd {
+	height: 75px !important;
+	margin-top: -12px;
+	z-index: 100;
+}
+
+.main-content {
+	width: 65%;
+	float: left;
+}
+
+#footer {
+	clear: both;
+	float: left;
+	width: 65%;
+}
+
+.added-description {
+	position: fixed;
+	width: 32%;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	/* Commenting out the original img url as a backup */
+	/* 
+	background-image: url('http://upload.wikimedia.org/wikipedia/commons/3/30/Cinemaaustralia.jpg');
+	*/
+	background-image: url('chrome-extension://__MSG_@@extension_id__/img/cinema-bg.jpg');
+	background-size: cover;
+}
+
+.nested-div {
+	width: 100%;
+	height: 100%;	
+	position: relative;
+	background-color: rgba(0,0,0, 0.75);
+	padding-right: 30px;
+}
+
+.opening-title {
+	position: absolute;
+	top: 36%;
+	color: rgba(255,255,255, 0.9);
+	font-weight: 300;
+	font-size: 55px;
+	margin: 0 70px;
+	font-family: "Didot", "Palatino Linotype", serif;
+}
+
+.img-injected {
+	margin-top: 100px;
+	margin-left: 30px;
+	width: 35%;
+	float: left;
+}
+
+.ratings {
+	color: rgba(245,245,245, 0.9);
+	float: left;
+	width: 50%;
+	margin-top: 100px;
+	margin-left: 4%;
+	font-family: 'Open Sans', 'Arial', sans-serif;
+}
+
+.rt-rating,
+.mc-rating {
+	padding-top: 20px;
+}
+
+.imdb-number {
+	background-image: url('chrome-extension://__MSG_@@extension_id__/img/imdb.png');
+}
+
+.rt-number {
+	background-image: url('chrome-extension://__MSG_@@extension_id__/img/rotten-tomatoes.png');
+}
+
+.mc-number {
+	background-image: url('chrome-extension://__MSG_@@extension_id__/img/metacritic.png');
+}
+
+.rate {
+	display: block;
+	padding-left: 46px;
+	height: 35px;
+	background-repeat: no-repeat;
+	background-size: contain;
+	margin-bottom: 10px;
+	font-size: 30px;
+	font-weight: 600;
+	position: relative;
+}
+
+
+.user-base {
+	position: absolute;
+	top: -13px;
+	left: 46px;
+	font-size: 12px;
+	color: rgba(255,255,255,0.8);
+	font-weight: 300;
+}
+
+.user-base:nth-of-type(2) {
+	left: 95px;
+}
+
+.second-rating {
+	margin-left: 15px;
+}
+
+.loading-score {
+	
+}
+
+.info-blob {
+	clear: both;
+	margin: 0 30px;
+	font-family: 'Open Sans', 'Arial', sans-serif;
+	color: rgba(245,245,245, 0.9);
+	padding-top: 40px;
+	font-size: 16px;
+	font-weight: 300;
+}
+
+.movie-title {
+	font-size: 28px;
+	margin-bottom: 20px;
+	font-weight: 600;
+}
+
+.directed-by, 
+.starring, 
+.year-produced {
+	margin-bottom: 11px;
+	font-weight: 600;
+	font-size: 12px;
+}
+
+.directed-by span,
+.starring span {
+	font-weight: 300;
+}
+
+.year-produced span {
+	margin-left: 10px;
+}
+
+.info-description {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+.more-info-link {
+	color: rgba(245,245,245, 0.9);
+	text-decoration: underline;
+}
+
+.awards {
+	margin: 20px 30px; 
+	margin-top: 20px;
+}
+
+.award-icon {
+	width: 20px;
+	height: 30px;
+	display: inline-block;
+	background-size: contain;
+	background-repeat: no-repeat;
+	opacity: 0.7;
+}
+
+.my-options {
+	margin-top: 40px;
+	margin-left: 30px;
+}
+
+.my-options a {
+	border: 1px solid rgba(255,255,255, 0.8);
+	padding: 6px 10px;
+	margin-right: 8px;
+	color: rgba(255,255,255, 0.9);
+	display: inline-block;
+	font-size: 11px;
+	font-weight: 300;
+	opacity: 0.89;
+	font-family: 'Open Sans', sans-serif;
+	transition: all 0.5s;
+}
+
+.my-options a:hover {
+	opacity: 1;
+}
+
+.oscar {
+	background-image: url('chrome-extension://__MSG_@@extension_id__/img/oscars-icon.png');
+}
+
+.golden {
+	background-image: url('chrome-extension://__MSG_@@extension_id__/img/golden-icon.png');
+}
+
+.emmy {
+	background-image: url('chrome-extension://__MSG_@@extension_id__/img/emmys-icon.png');
+}
