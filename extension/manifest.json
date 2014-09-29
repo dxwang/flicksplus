@@ -7,8 +7,8 @@
   "content_scripts": [
     {
       "matches": [
-        "http://www.netflix.com/*",
-        "https://www.netflix.com/*"
+        "http://www.netflix.com/WiHome*",
+        "https://www.netflix.com/WiHome*"
       ],
       "js": ["jquery.min.js", "flicksplus.js"],
       "css": ["flicksplus.css"]
