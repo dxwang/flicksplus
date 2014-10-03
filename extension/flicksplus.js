@@ -39,6 +39,7 @@ function flicksplus() {
 
         var img = $(e.target).parent().find('.boxShotImg').clone().addClass("img-injected");
         this.movieName = $(e.target).parent().find('.boxShotImg').attr('alt');
+        this.movieId = $(e.target).parent().find('.playLink').attr('data-uitrack').split(',')[0];
         $(".nested-div").find(".img-injected, .info-blob, .ratings, .my-options, .awards").remove();
         img.appendTo($(".nested-div"));
 
@@ -162,7 +163,7 @@ function flicksplus() {
             "</div>" + 
             "<div class='info-description'>" + 
                 (info.Plot  || 'N/A') + " " +
-                "<a class='more-info-link' href='" + info.moreInfoLink +"'>" +
+                "<a class='more-info-link' href='http://www.netflix.com/WiMovie/" + this.movieId +"'>" +
                     "More Info" +
                 "</a>" +
             "</div>"
