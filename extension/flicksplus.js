@@ -168,6 +168,7 @@ function flicksplus() {
 
     }
 
+
     $('.boxShot, .lockup').mouseenter(function(){
         var hoverMovieId = $(this).find('.playLink, .playHover').attr('data-uitrack').split(',')[0];
         $(this).find('.more-info-link').remove();
@@ -175,6 +176,8 @@ function flicksplus() {
     }).mouseleave(function(){
         $('.more-info-link').hide();
     });
+
+
 
     this.injectOptionsData = function(info) {
         $('.my-options').html(

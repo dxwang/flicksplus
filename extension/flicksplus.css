@@ -195,6 +195,11 @@
 	line-height: 19px;
 }
 
+.lockup,
+.agMovie {
+	position: relative !important;
+}
+
 .more-info-link {
 	position: absolute;
 	bottom: 0px;
@@ -203,12 +208,11 @@
 	text-decoration: none;
 	display: inline-block;
 	width: 100%;
-	height: 20px;
+	height: 20px !important;
 	z-index: 600 !important; 
 	font-size: 0.85rem;
-	text-transform: uppercase;
 	font-weight: 300;
-	background-color: rgba(0,0,0, 0.63);
+	background-color: rgba(0,0,0, 0.58);
 	padding: 5px 0 1px;
 	transition: all 0.5s;
 	text-align: center;

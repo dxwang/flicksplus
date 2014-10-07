@@ -10,7 +10,9 @@
         "http://www.netflix.com/WiHome*",
         "https://www.netflix.com/WiHome*",
         "http://www.netflix.com/WiGenre*",
-        "https://www.netflix.com/WiGenre*"
+        "https://www.netflix.com/WiGenre*",
+        "http://www.netflix.com/search*",
+        "https://www.netflix.com/search*"
       ],
       "js": ["jquery.min.js", "flicksplus.js"],
       "css": ["flicksplus.css"]
