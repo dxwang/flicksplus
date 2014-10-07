@@ -19,7 +19,7 @@ function flicksplus() {
     }
 
     this.attachMouseOverHandler = function(){
-        $(document).on('mouseover', '.boxShot', this.mouseOverHandler.bind(this));
+        $(document).on('mouseover', '.boxShot, .lockup', this.mouseOverHandler.bind(this));
     }
 
     this.cancelCurrentRequests = function() {
@@ -38,9 +38,9 @@ function flicksplus() {
         this.cancelCurrentRequests();
         $('.opening-title').hide();
 
-        var img = $(e.target).parent().find('.boxShotImg').clone().addClass("img-injected");
-        this.movieName = $(e.target).parent().find('.boxShotImg').attr('alt');
-        this.movieId = $(e.target).parent().find('.playLink').attr('data-uitrack').split(',')[0];
+        var img = $(e.target).parent().find('.boxShotImg, .boxart').clone().addClass("img-injected");
+        this.movieName = $(e.target).parent().find('.boxShotImg, .boxart').attr('alt');
+        this.movieId = $(e.target).parent().find('.playLink, .playHover').attr('data-uitrack').split(',')[0];
         $(".nested-div").find(".img-injected, .info-blob, .ratings, .my-options, .awards").remove();
         img.appendTo($(".nested-div"));
 
@@ -50,7 +50,7 @@ function flicksplus() {
             '<div class="info-blob"></div>' + 
             '<div class="my-options"></div>');
 
-        $('#BobMovie').remove();
+        $('#BobMovie, #bob-container').remove();
 
         this.getMovieInfo(this.movieName);
     }
@@ -163,24 +163,19 @@ function flicksplus() {
                 "</span>" + 
             "</div>" + 
             "<div class='info-description'>" + 
-                (info.Plot  || 'N/A') + " " 
-                // +
-                // "<a class='more-info-link' href='http://www.netflix.com/WiMovie/" + this.movieId +"'>" +
-                //     "More Info" +
-                // "</a>" 
-                +
+                (info.Plot  || 'N/A') + " " +
             "</div>"
         );
 
     }
 
-    $('.boxShot').mouseenter(function(){
-        var hoverMovieId = $(this).find('.playLink').attr('data-uitrack').split(',')[0];
+    $('.boxShot, .lockup').mouseenter(function(){
+        var hoverMovieId = $(this).find('.playLink, .playHover').attr('data-uitrack').split(',')[0];
+        $(this).find('.more-info-link').remove();
         $(this).append('<a class="more-info-link" href="http://www.netflix.com/WiMovie/' + hoverMovieId + '">More Info</a>');
     }).mouseleave(function(){
         $('.more-info-link').hide();
     });
-
 
     this.injectOptionsData = function(info) {
         $('.my-options').html(

@@ -8,7 +8,8 @@
 }
 
 .main-content,
-#instantSearchGalleryResults {
+#instantSearchGalleryResults,
+#genrePage {
 	width: 65%;
 	float: left;
 }
