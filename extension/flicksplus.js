@@ -37,7 +37,6 @@ function flicksplus() {
     this.mouseOverHandler = function(e) {
         this.cancelCurrentRequests();
         $('.opening-title').hide();
-
         var img = $(e.target).parent().find('.boxShotImg, .boxart').clone().addClass("img-injected");
         this.movieName = $(e.target).parent().find('.boxShotImg, .boxart').attr('alt');
         this.movieId = $(e.target).parent().find('.playLink, .playHover').attr('data-uitrack').split(',')[0];
