@@ -5,6 +5,7 @@ function flicksplus() {
     this.metaReq = null;
     this.notAvailable = '<div class="not-available">N/A</div>';
 
+
     this.checkName = function(name1, name2) {
         return name1 && name2 && (name1.toUpperCase().indexOf(name2.toUpperCase()) > -1 ||
             name2.toUpperCase().indexOf(name1.toUpperCase()) > -1);
@@ -162,13 +163,24 @@ function flicksplus() {
                 "</span>" + 
             "</div>" + 
             "<div class='info-description'>" + 
-                (info.Plot  || 'N/A') + " " +
-                "<a class='more-info-link' href='http://www.netflix.com/WiMovie/" + this.movieId +"'>" +
-                    "More Info" +
-                "</a>" +
+                (info.Plot  || 'N/A') + " " 
+                // +
+                // "<a class='more-info-link' href='http://www.netflix.com/WiMovie/" + this.movieId +"'>" +
+                //     "More Info" +
+                // "</a>" 
+                +
             "</div>"
         );
+
     }
+
+    $('.boxShot').mouseenter(function(){
+        var hoverMovieId = $(this).find('.playLink').attr('data-uitrack').split(',')[0];
+        $(this).append('<a class="more-info-link" href="http://www.netflix.com/WiMovie/' + hoverMovieId + '">More Info</a>');
+    }).mouseleave(function(){
+        $('.more-info-link').hide();
+    });
+
 
     this.injectOptionsData = function(info) {
         $('.my-options').html(
@@ -228,3 +240,5 @@ function flicksplus() {
 
 var showRunner = new flicksplus();
 showRunner.insertAwesome();
+
+
