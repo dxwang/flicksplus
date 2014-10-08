@@ -168,12 +168,12 @@ function flicksplus() {
 
     }
 
-
-    $('.boxShot, .lockup').mouseenter(function(){
+    $(document).on('mouseenter', '.boxShot, .lockup', function(){
         var hoverMovieId = $(this).find('.playLink, .playHover').attr('data-uitrack').split(',')[0];
         $(this).find('.more-info-link').remove();
         $(this).append('<a class="more-info-link" href="http://www.netflix.com/WiMovie/' + hoverMovieId + '">More Info</a>');
-    }).mouseleave(function(){
+    });
+    $(document).on('mouseleave', '.boxShot, .lockup', function(){
         $('.more-info-link').hide();
     });
 
