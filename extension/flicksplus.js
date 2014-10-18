@@ -55,7 +55,7 @@ function flicksplus() {
     }
 
     this.getMovieInfo = function(movieName) {
-        var omdbRequestUrl = 'http://www.omdbapi.com/?t=' + movieName;
+        var omdbRequestUrl = 'http://54.69.188.189/?site=OMDB&title=' + movieName;
         this.omdbReq = $.ajax({
             type: "GET", 
             url: omdbRequestUrl, 
@@ -97,7 +97,7 @@ function flicksplus() {
     }
 
     this.getRTInfo = function(movieData) {
-        var rtRequestUrl = 'http://api.rottentomatoes.com/api/public/v1.0/movies.json?apikey=u4f7ar7byc87wg3qxs9u8ecm&q=' + encodeURIComponent(movieData.Title + ' ' + movieData.Year);
+        var rtRequestUrl = 'http://54.69.188.189/?site=RT&title=' + encodeURIComponent(movieData.Title + ' ' + movieData.Year);
         this.rtReq = $.ajax({
             type: "GET",
             url: rtRequestUrl,
