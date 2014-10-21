@@ -5,11 +5,15 @@ function flicksplus() {
     this.metaReq = null;
     this.notAvailable = '<div class="not-available">N/A</div>';
 
+    $(document).on('mouseenter', '.boxShot, .lockup', function(){
+        var hoverMovieId = $(this).find('.playLink, .playHover').attr('data-uitrack').split(',')[0];
+        $(this).find('.more-info-link').remove();
+        $(this).append('<a class="more-info-link" href="http://www.netflix.com/WiMovie/' + hoverMovieId + '">More Info</a>');
+    });
 
-    this.checkName = function(name1, name2) {
-        return name1 && name2 && (name1.toUpperCase().indexOf(name2.toUpperCase()) > -1 ||
-            name2.toUpperCase().indexOf(name1.toUpperCase()) > -1);
-    }
+    $(document).on('mouseleave', '.boxShot, .lockup', function(){
+        $('.more-info-link').hide();
+    });
 
     this.insertAwesome = function() {
         $('.connect-overlay.connect').remove();
@@ -46,8 +50,8 @@ function flicksplus() {
         $('.nested-div').append(
             '<div class="ratings"></div>' +
             '<div class="awards"></div>' +
-            '<div class="info-blob"></div>' + 
-            '<div class="my-options"></div>');
+            '<div class="info-blob"></div>'
+        );
 
         $('#BobMovie, #bob-container').remove();
 
@@ -61,20 +65,18 @@ function flicksplus() {
             url: omdbRequestUrl, 
             dataType: 'json', 
             success: function(movieInfo){
-                if (flicksplus.checkName(movieInfo.Title, flicksplus.movieName)) {
-                    movieInfo['imdbRating'] = movieInfo['imdbRating'] || flicksplus.notAvailable;
-                    movieInfo['Metascore'] = movieInfo['Metascore'] || flicksplus.notAvailable;
-                    if (movieInfo['imdbRating'] === 'N/A') {
-                        movieInfo['imdbRating'] = flicksplus.notAvailable;
-                    }
-                    if (movieInfo['Metascore'] === 'N/A') {
-                        movieInfo['Metascore'] = flicksplus.notAvailable;
-                    }
-                    flicksplus.displayAwardData(movieInfo['Awards']);
-                    flicksplus.injectMovieData(movieInfo);
-                    flicksplus.injectRatingsData(movieInfo);
-                    flicksplus.getRTInfo(movieInfo);
-                } 
+                movieInfo['imdbRating'] = movieInfo['imdbRating'] || flicksplus.notAvailable;
+                movieInfo['Metascore'] = movieInfo['Metascore'] || flicksplus.notAvailable;
+                if (movieInfo['imdbRating'] === 'N/A') {
+                    movieInfo['imdbRating'] = flicksplus.notAvailable;
+                }
+                if (movieInfo['Metascore'] === 'N/A') {
+                    movieInfo['Metascore'] = flicksplus.notAvailable;
+                }
+                flicksplus.injectMovieData(movieInfo);
+                flicksplus.injectRatingsData(movieInfo);
+                flicksplus.displayAwardData(movieInfo['Awards']);
+                flicksplus.getRTInfo(movieInfo);
             }
         });
     }
@@ -104,39 +106,12 @@ function flicksplus() {
             dataType: 'json',
             success: function(RTInfo) {
                 var infoObj = RTInfo.movies[0] || {};
-                if (flicksplus.checkName(movieData.Title, flicksplus.movieName)) {
-                    var ratings = infoObj.ratings || {};
-                    movieData['rtCriticsScore'] = ((ratings.critics_score > 0) ? ratings.critics_score : flicksplus.notAvailable);
-                    movieData['rtAudienceScore'] = ((ratings.audience_score > 0) ? ratings.audience_score : flicksplus.notAvailable);
-                    flicksplus.injectRatingsData(movieData);
-                    flicksplus.getMetaInfo(movieData);
-                }
+                var ratings = infoObj.ratings || {};
+                movieData['rtCriticsScore'] = ((ratings.critics_score > 0) ? ratings.critics_score : flicksplus.notAvailable);
+                movieData['rtAudienceScore'] = ((ratings.audience_score > 0) ? ratings.audience_score : flicksplus.notAvailable);
+                flicksplus.injectRatingsData(movieData);
             }
         });
-    }
-
-    this.getMetaInfo = function(movieData) {
-        var metaRequestUrl = 'https://byroredux-metacritic.p.mashape.com/find/movie';
-        this.metaReq = $.ajax({
-            type: 'POST',
-            url: metaRequestUrl,
-            dataType: 'json',
-            beforeSend: function(xhrObj){
-                xhrObj.setRequestHeader("X-Mashape-Key","jgckKjdLmSmsheiVNN5ZzPM8PrGkp1zLZFmjsn8ZS3oEovu9S0");
-            },
-            data: {
-                'title': movieData.Title
-            },
-            success: function(metaInfo) {
-                var infoObj = (metaInfo.result || {});
-                if (flicksplus.checkName(movieData.Title, flicksplus.movieName)) {
-                    movieData['metascore'] = infoObj.score || flicksplus.notAvailable;
-                    movieData['metaUserScore'] = infoObj.userscore || flicksplus.notAvailable;
-                    flicksplus.injectRatingsData(movieData);
-                }
-            }
-
-        });        
     }
 
     this.injectMovieData = function(info) {
@@ -168,27 +143,6 @@ function flicksplus() {
 
     }
 
-    $(document).on('mouseenter', '.boxShot, .lockup', function(){
-        var hoverMovieId = $(this).find('.playLink, .playHover').attr('data-uitrack').split(',')[0];
-        $(this).find('.more-info-link').remove();
-        $(this).append('<a class="more-info-link" href="http://www.netflix.com/WiMovie/' + hoverMovieId + '">More Info</a>');
-    });
-    $(document).on('mouseleave', '.boxShot, .lockup', function(){
-        $('.more-info-link').hide();
-    });
-
-
-
-    this.injectOptionsData = function(info) {
-        $('.my-options').html(
-            '<a class="new-my-list" href="' + info.myListLink + '">' +
-                'My List' +
-            '</a>' + 
-            '<a class="new-recommend" href="' + info.recommendLink + '">' +
-                'Recommend' +
-            '</a>'
-        );
-    }
 
     this.injectRatingsData = function(info) {
         $('.ratings').html(
@@ -209,12 +163,7 @@ function flicksplus() {
             '</div>' + 
             '<div class="mc-rating">' + 
                 '<span class="rate mc-number">' +
-                    '<span class="user-base">Critics:</span>'+ 
-                        (info.Metascore || '<div class="loading-score"></div>') +
-                    '<span class="user-base">User:</span>' +
-                    '<span class="second-rating">' + 
-                        (info.metaUserScore  || '<div class="loading-score"></div>') +
-                    '</span>' +
+                    (info.Metascore || '<div class="loading-score"></div>') +
                 '</span>' +
             '</div>'
         );
