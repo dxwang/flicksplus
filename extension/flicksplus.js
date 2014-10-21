@@ -75,7 +75,7 @@ function flicksplus() {
                 }
                 flicksplus.injectMovieData(movieInfo);
                 flicksplus.injectRatingsData(movieInfo);
-                flicksplus.displayAwardData(movieInfo['Awards']);
+                flicksplus.displayAwardData(movieInfo['Awards'] || '');
                 flicksplus.getRTInfo(movieInfo);
             }
         });
@@ -143,7 +143,6 @@ function flicksplus() {
 
     }
 
-
     this.injectRatingsData = function(info) {
         $('.ratings').html(
             '<div class="imdb-rating">' + 
@@ -186,5 +185,3 @@ function flicksplus() {
 
 var showRunner = new flicksplus();
 showRunner.insertAwesome();
-
-
