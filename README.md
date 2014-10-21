@@ -1,4 +1,4 @@
-flicks-
+flicksplus
 =======
 
 Browser enhancement for Netflix
