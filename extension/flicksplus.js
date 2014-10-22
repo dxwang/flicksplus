@@ -1,3 +1,6 @@
+var showRunner = new flixplusController();
+showRunner.start();
+
 function flixplusModel() {
     var flixplusModel = this;
     this.data = {};
@@ -222,6 +225,3 @@ function flixplusController() {
         });
     };
 };
-
-var showRunner = new flixplusController();
-showRunner.start();
