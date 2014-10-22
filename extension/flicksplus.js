@@ -1,8 +1,8 @@
-var showRunner = new flixplusController();
+var showRunner = new cineplusController();
 showRunner.start();
 
-function flixplusModel() {
-    var flixplusModel = this;
+function cineplusModel() {
+    var cineplusModel = this;
     this.data = {};
     this.notAvailable = '<div class="not-available">N/A</div>';
 
@@ -37,24 +37,24 @@ function flixplusModel() {
     };
 
     this.getOmdbInfo_ = function(movieData, callback) {
-        var omdbRequestUrl = 'http://flixplus.co:8001/?site=OMDB&title=' + movieData.Title;
+        var omdbRequestUrl = 'http://cineplus.co:8001/?site=OMDB&title=' + movieData.Title;
         $.ajax({
             type: "GET", 
             url: omdbRequestUrl, 
             dataType: 'json', 
             success: function(movieInfo){
                 $.extend(movieData, movieInfo);
-                movieData['imdbRating'] = movieInfo['imdbRating'] || flixplusModel.notAvailable;
-                movieData['Metascore'] = movieInfo['Metascore'] || flixplusModel.notAvailable;
+                movieData['imdbRating'] = movieInfo['imdbRating'] || cineplusModel.notAvailable;
+                movieData['Metascore'] = movieInfo['Metascore'] || cineplusModel.notAvailable;
                 movieData['Awards'] = movieInfo['Awards'] || '';
                 if (movieInfo['imdbRating'] === 'N/A') {
-                    movieData['imdbRating'] = flixplusModel.notAvailable;
+                    movieData['imdbRating'] = cineplusModel.notAvailable;
                 }
                 if (movieInfo['Metascore'] === 'N/A') {
-                    movieData['Metascore'] = flixplusModel.notAvailable;
+                    movieData['Metascore'] = cineplusModel.notAvailable;
                 }
-                flixplusModel.formatAwardData_(movieData);
-                flixplusModel.getRTInfo_(movieData, callback);
+                cineplusModel.formatAwardData_(movieData);
+                cineplusModel.getRTInfo_(movieData, callback);
             },
             complete: function() {
                 callback(movieData);
@@ -63,7 +63,7 @@ function flixplusModel() {
     };
 
     this.getRTInfo_ = function(movieData, callback) {
-        var rtRequestUrl = 'http://flixplus.co:8001/?site=RT&title=' + encodeURIComponent(movieData.Title + ' ' + movieData.Year);
+        var rtRequestUrl = 'http://cineplus.co:8001/?site=RT&title=' + encodeURIComponent(movieData.Title + ' ' + movieData.Year);
         $.ajax({
             type: "GET",
             url: rtRequestUrl,
@@ -71,8 +71,8 @@ function flixplusModel() {
             success: function(RTInfo) {
                 var infoObj = RTInfo.movies[0] || {};
                 var ratings = infoObj.ratings || {};
-                movieData['rtCriticsScore'] = ((ratings.critics_score > 0) ? ratings.critics_score : flixplusModel.notAvailable);
-                movieData['rtAudienceScore'] = ((ratings.audience_score > 0) ? ratings.audience_score : flixplusModel.notAvailable);
+                movieData['rtCriticsScore'] = ((ratings.critics_score > 0) ? ratings.critics_score : cineplusModel.notAvailable);
+                movieData['rtAudienceScore'] = ((ratings.audience_score > 0) ? ratings.audience_score : cineplusModel.notAvailable);
             },
             complete: function() {
                 callback(movieData);
@@ -82,7 +82,7 @@ function flixplusModel() {
 };
 
 
-function flixplusView() {
+function cineplusView() {
     this.movieName = '';
     $('.connect-overlay.connect').remove();
     $('<div class="added-description"><div class="nested-div"><h2 class="opening-title">What would you like to watch today?</h2></div></div>').appendTo('body');
@@ -201,10 +201,10 @@ function flixplusView() {
 };
 
 
-function flixplusController() {
+function cineplusController() {
     var controller = this;
-    this.model = new flixplusModel();
-    this.view = new flixplusView();
+    this.model = new cineplusModel();
+    this.view = new cineplusView();
 
     this.start = function() {
         $(document).on('mouseenter', '.boxShot, .lockup', function() {
