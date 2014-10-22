@@ -57,14 +57,13 @@ function flicksplus() {
 
         this.getMovieInfo(this.movieName);
     }
-
+    //Locally cache request results
+    var cache = {};
+    //Get OMDB info
     this.getMovieInfo = function(movieName) {
         var omdbRequestUrl = 'http://54.69.188.189/?site=OMDB&title=' + movieName;
-        this.omdbReq = $.ajax({
-            type: "GET", 
-            url: omdbRequestUrl, 
-            dataType: 'json', 
-            success: function(movieInfo){
+        var localCacheResult = cache[omdbRequestUrl];
+        var callback = function(movieInfo){
                 movieInfo['imdbRating'] = movieInfo['imdbRating'] || flicksplus.notAvailable;
                 movieInfo['Metascore'] = movieInfo['Metascore'] || flicksplus.notAvailable;
                 if (movieInfo['imdbRating'] === 'N/A') {
@@ -78,9 +77,45 @@ function flicksplus() {
                 flicksplus.displayAwardData(movieInfo['Awards'] || '');
                 flicksplus.getRTInfo(movieInfo);
             }
-        });
+        if(localCacheResult != null) {
+           callback(localCacheResult);
+        } else {
+          this.omdbReq = $.ajax({
+              type: "GET", 
+              url: omdbRequestUrl, 
+              dataType: 'json', 
+              success: function(movieInfo) {
+                 cache[omdbRequestUrl] = movieInfo;
+                 callback(movieInfo);
+              }
+          });
+        }
     }
-
+    //Get RT info
+    this.getRTInfo = function(movieData) {
+        var rtRequestUrl = 'http://54.69.188.189/?site=RT&title=' + encodeURIComponent(movieData.Title + ' ' + movieData.Year);
+        var localCacheResult = cache[rtRequestUrl];
+        var callback = function(RTInfo) {
+                var infoObj = RTInfo.movies[0] || {};
+                var ratings = infoObj.ratings || {};
+                movieData['rtCriticsScore'] = ((ratings.critics_score > 0) ? ratings.critics_score : flicksplus.notAvailable);
+                movieData['rtAudienceScore'] = ((ratings.audience_score > 0) ? ratings.audience_score : flicksplus.notAvailable);
+                flicksplus.injectRatingsData(movieData);
+            }
+        if(localCacheResult != null) {
+           callback(localCacheResult);
+        } else {
+          this.rtReq = $.ajax({
+              type: "GET",
+              url: rtRequestUrl,
+              dataType: 'json',
+              success: function(movieInfo) {
+                 cache[rtRequestUrl] = movieInfo;
+                 callback(movieInfo);
+              }
+          });
+        }
+    }
     this.displayAwardData = function(awardString) {
         var movieData = {};
         var oscarInString = awardString.split(' Oscar');
@@ -98,21 +133,7 @@ function flicksplus() {
         this.injectAwardsData(movieData);
     }
 
-    this.getRTInfo = function(movieData) {
-        var rtRequestUrl = 'http://54.69.188.189/?site=RT&title=' + encodeURIComponent(movieData.Title + ' ' + movieData.Year);
-        this.rtReq = $.ajax({
-            type: "GET",
-            url: rtRequestUrl,
-            dataType: 'json',
-            success: function(RTInfo) {
-                var infoObj = RTInfo.movies[0] || {};
-                var ratings = infoObj.ratings || {};
-                movieData['rtCriticsScore'] = ((ratings.critics_score > 0) ? ratings.critics_score : flicksplus.notAvailable);
-                movieData['rtAudienceScore'] = ((ratings.audience_score > 0) ? ratings.audience_score : flicksplus.notAvailable);
-                flicksplus.injectRatingsData(movieData);
-            }
-        });
-    }
+    
 
     this.injectMovieData = function(info) {
         $('.info-blob').html(
