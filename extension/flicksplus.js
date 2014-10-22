@@ -115,7 +115,6 @@ function cineplusView() {
     };
 
     this.displayMovieData = function(movieData) {
-        console.log(this.movieName + ' ' + movieData.Title);
         if (this.isSameMovie_(movieData.Title, this.movieName)) {
             this.displayOmdbData_(movieData);
             this.displayRatingsData_(movieData);

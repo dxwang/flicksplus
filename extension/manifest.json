@@ -1,28 +1,34 @@
 {
   "manifest_version": 2,
 
-  "name": "Flicks Plus",
-  "description": "A movie info enhancement for your favourite flicks sites.",
+  "name": "Cineplus",
+  "description": "A movie info enhancement for your favourite media site.",
   "version": "1.0",
+  "icons": {
+    "16": "img/chrome-store/16-icon.png",
+    "48": "img/chrome-store/48-icon.png",
+    "128": "img/chrome-store/128-icon.png"
+  },
   "content_scripts": [
     {
       "matches": [
         "http://www.netflix.com/WiHome*",
         "https://www.netflix.com/WiHome*",
+        "http://www.netflix.com/WiAltGenre*",
+        "https://www.netflix.com/WiAltGenre*",
         "http://www.netflix.com/WiGenre*",
         "https://www.netflix.com/WiGenre*",
+        "http://www.netflix.com/WiSimilarsByViewType*",
+        "https://www.netflix.com/WiSimilarsByViewType*",
         "http://www.netflix.com/search*",
         "https://www.netflix.com/search*"
       ],
       "js": ["jquery.min.js", "flicksplus.js"],
       "css": ["flicksplus.css"]
     }
-  ], 
-  "permissions": [
-    "http://api.rottentomatoes.com/*"
   ],
   "browser_action": {
-    "default_title": "Flicks+ Enhancement"
+    "default_title": "Cineplus Enhancement"
   },
   "web_accessible_resources": [
        "img/cinema-bg.jpg",
