@@ -191,6 +191,11 @@
 	margin-left: 10px;
 }
 
+.maturity-rating {
+	border: 1px #fff solid;
+	padding: 0 4px;
+}
+
 .info-description {
 	font-size: 14px;
 	line-height: 19px;

@@ -19,11 +19,13 @@ function cineplusModel() {
         }
     };
 
-    this.netflixReady = function(movieName, callback) {
+    this.netflixInfoReady = function(movieName, callback) {
         if (movieName) {
             movieName = movieName.trim();
             if (this.data[movieName]) {
-                this.getNetflixInfo_(this.data[movieName], callback);
+                if (!this.data[movieName].hasNetflixInfo) {
+                    this.getNetflixInfo_(this.data[movieName], callback);
+                }
             } else {
                 this.data[movieName] = {
                     'Title': movieName
@@ -52,8 +54,23 @@ function cineplusModel() {
     };
 
     this.getNetflixInfo_ = function(movieData, callback) {
-        // TODO(dxwang): parse #BobMovie and add data.
+        var director = $('#BobMovie .bobMovieContent .info dd').last().text().trim();
+        director = $.map(director.split(','), function(string) {return string.trim();}).join(', ');
+        var actors = $('#BobMovie .bobMovieContent .info dd').first().text().trim();
+        actors = $.map(actors.split(','), function(string) {return string.trim();}).join(', ');
+        var year = $('#BobMovie .year').html();
+        var rating = $('#BobMovie .mpaaRating').html();
+        var duration = $('#BobMovie .duration').html();
+        var plot = $('#BobMovie .bobMovieContent').clone().find('.readMore, .info, .midBob').remove().end().text().trim();
+
+        movieData['Director'] = movieData['Director'] || director;
+        movieData['Actors'] = movieData['Actors'] || actors;
+        movieData['Year'] = movieData['Year'] || year;
+        movieData['Rated'] = movieData['Rated'] || rating;
+        movieData['Runtime'] = movieData['Runtime'] || duration;
+        movieData['Plot'] = movieData['Plot'] || plot;
         movieData['hasMovieInfo'] = true;
+        movieData['hasNetflixInfo'] = true;
         callback(movieData);
     };
 
@@ -65,6 +82,9 @@ function cineplusModel() {
             dataType: 'json', 
             success: function(movieInfo){
                 if (!movieData.hasMovieInfo && movieInfo.Response) {
+                    $.map(movieInfo, function(val, key) {
+                        movieInfo[key] = (val === 'N/A') ? '' : val;
+                    });
                     $.extend(movieData, movieInfo);
                     movieData['hasMovieInfo'] = true;
                 }
@@ -108,7 +128,7 @@ function cineplusModel() {
 function cineplusView() {
     this.movieName = '';
     $('.connect-overlay.connect').remove();
-    $('<div class="added-description"><div class="nested-div"><h2 class="opening-title">What would you like to watch today?</h2></div></div>').appendTo('body');
+    $('body').append('<div class="added-description"><div class="nested-div"><h2 class="opening-title">What would you like to watch today?</h2></div></div>');
 
     this.reset = function(element) {
         $('.opening-title').hide();
@@ -157,27 +177,27 @@ function cineplusView() {
     this.displayOmdbData_ = function(info) {
         $('.info-blob').html([
             "<div class='movie-title'>", 
-                (info.Title || 'N/A'),
+                (info.Title || ''),
             "</div>",
             "<div class='directed-by'>",
                 "<span>Director: </span>", 
-                (info.Director || 'N/A'), 
+                (info.Director || ''),
             "</div>",
             "<div class='starring'>",
                 "<span>Starring: </span>", 
-                (info.Actors || 'N/A'),
+                (info.Actors || ''),
             "</div>",
             "<div class='year-produced'>",
-                (info.Year || 'N/A'),
-                "<span class='duration'>",
-                    (info.Runtime || 'N/A'),
-                "</span>",
+                (info.Year || ''),
                 "<span class='maturity-rating'>",
-                    (info.Rated || 'N/A'),
+                    (info.Rated || ''),
+                "</span>",
+                "<span class='duration'>",
+                    (info.Runtime || ''),
                 "</span>",
             "</div>",
             "<div class='info-description'>",
-                (info.Plot || 'N/A') + ' ',
+                (info.Plot || '') + ' ',
             "</div>"
         ].join(''));
     };
@@ -228,7 +248,7 @@ function cineplusController() {
     this.model = new cineplusModel();
     this.view = new cineplusView();
     this.netflixObserver = new MutationObserver(function(mutations) {
-        controller.model.netflixReady.bind(controller.model)(
+        controller.model.netflixInfoReady.bind(controller.model)(
             $('#BobMovie .title').html(),
             controller.view.displayMovieData.bind(controller.view)
         );
