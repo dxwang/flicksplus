@@ -14,7 +14,22 @@ function cineplusModel() {
                 'Title': movieName
             };
             this.getOmdbInfo_(this.data[movieName], callback);
+            this.getRTInfo_(this.data[movieName], callback);
             callback(this.data[movieName]);
+        }
+    };
+
+    this.netflixReady = function(movieName, callback) {
+        if (movieName) {
+            movieName = movieName.trim();
+            if (this.data[movieName]) {
+                this.getNetflixInfo_(this.data[movieName], callback);
+            } else {
+                this.data[movieName] = {
+                    'Title': movieName
+                };
+                this.getNetflixInfo_(this.data[movieName], callback);
+            }
         }
     };
 
@@ -36,6 +51,12 @@ function cineplusModel() {
         movieData['awardData'] = awardData;
     };
 
+    this.getNetflixInfo_ = function(movieData, callback) {
+        // TODO(dxwang): parse #BobMovie and add data.
+        movieData['hasMovieInfo'] = true;
+        callback(movieData);
+    };
+
     this.getOmdbInfo_ = function(movieData, callback) {
         var omdbRequestUrl = 'http://cineplus.co:8001/?site=OMDB&title=' + movieData.Title;
         $.ajax({
@@ -43,7 +64,10 @@ function cineplusModel() {
             url: omdbRequestUrl, 
             dataType: 'json', 
             success: function(movieInfo){
-                $.extend(movieData, movieInfo);
+                if (!movieData.hasMovieInfo && movieInfo.Response) {
+                    $.extend(movieData, movieInfo);
+                    movieData['hasMovieInfo'] = true;
+                }
                 movieData['imdbRating'] = movieInfo['imdbRating'] || cineplusModel.notAvailable;
                 movieData['Metascore'] = movieInfo['Metascore'] || cineplusModel.notAvailable;
                 movieData['Awards'] = movieInfo['Awards'] || '';
@@ -54,7 +78,6 @@ function cineplusModel() {
                     movieData['Metascore'] = cineplusModel.notAvailable;
                 }
                 cineplusModel.formatAwardData_(movieData);
-                cineplusModel.getRTInfo_(movieData, callback);
             },
             complete: function() {
                 callback(movieData);
@@ -98,7 +121,7 @@ function cineplusView() {
             '<div class="awards"></div>',
             '<div class="info-blob"></div>'
         ].join(''));
-        $('#BobMovie, #bob-container').remove();
+        $('#BobMovie, #bob-container').css('margin-top', '-999px');
     };
 
     this.setMovieName = function(movieName) {
@@ -204,20 +227,29 @@ function cineplusController() {
     var controller = this;
     this.model = new cineplusModel();
     this.view = new cineplusView();
+    this.netflixObserver = new MutationObserver(function(mutations) {
+        controller.model.netflixReady.bind(controller.model)(
+            $('#BobMovie .title').html(),
+            controller.view.displayMovieData.bind(controller.view)
+        );
+    });
+    this.netflixObserverConfig = { attributes: true };
 
     this.start = function() {
         $(document).on('mouseenter', '.boxShot, .lockup', function() {
             var hoverMovieId = $(this).find('.playLink, .playHover').attr('data-uitrack').split(',')[0];
             controller.view.addMoreInfoButton($(this), hoverMovieId);
+            controller.netflixObserver.observe(document.querySelector('#BobMovie'), controller.netflixObserverConfig);
         });
 
         $(document).on('mouseleave', '.boxShot, .lockup', function() {
             controller.view.hideMoreInfoButton();
+            controller.netflixObserver.disconnect();
         });
 
         $(document).on('mouseover', '.boxShot, .lockup', function(e) {
             var element = $(e.target).parent().find('.boxShotImg, .boxart');
-            var movieName = element.attr('alt');
+            var movieName = element.attr('alt').trim();
             controller.view.reset(element);
             controller.view.setMovieName(movieName);
             controller.model.getMovieInfo(movieName, controller.view.displayMovieData.bind(controller.view));

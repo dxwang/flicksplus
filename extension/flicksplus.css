@@ -11,7 +11,7 @@
 .main-content,
 #instantSearchGalleryResults,
 #genrePage {
-	width: 67%;
+	width: 65%;
 	float: left;
 }
 
@@ -23,7 +23,7 @@
 
 .added-description {
 	position: fixed;
-	width: 32%;
+	width: 35%;
 	top: 0;
 	bottom: 0;
 	right: 0;

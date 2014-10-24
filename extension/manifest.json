@@ -2,7 +2,7 @@
   "manifest_version": 2,
 
   "name": "Cineplus",
-  "description": "A movie info enhancement for your favourite media site.",
+  "description": "A movie info enhancement for your favourite entertainment site.",
   "version": "1.0",
   "icons": {
     "16": "img/chrome-store/16-icon.png",
@@ -27,9 +27,6 @@
       "css": ["flicksplus.css"]
     }
   ],
-  "browser_action": {
-    "default_title": "Cineplus Enhancement"
-  },
   "web_accessible_resources": [
        "img/cinema-bg.jpg",
        "img/imdb.png",
