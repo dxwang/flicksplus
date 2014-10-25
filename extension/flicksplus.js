@@ -14,7 +14,6 @@ function cineplusModel() {
                 'Title': movieName
             };
             this.getOmdbInfo_(this.data[movieName], callback);
-            this.getRTInfo_(this.data[movieName], callback);
             callback(this.data[movieName]);
         }
     };
@@ -72,6 +71,8 @@ function cineplusModel() {
         movieData['hasMovieInfo'] = true;
         movieData['hasNetflixInfo'] = true;
 
+        this.getRTInfo_(movieData, callback);
+
         callback(movieData);
     };
 
@@ -99,6 +100,7 @@ function cineplusModel() {
                     movieData['Metascore'] = cineplusModel.notAvailable;
                 }
                 cineplusModel.formatAwardData_(movieData);
+                cineplusModel.getRTInfo_(movieData, callback);
             },
             complete: function() {
                 callback(movieData);
