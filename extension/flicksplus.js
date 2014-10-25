@@ -58,9 +58,9 @@ function cineplusModel() {
         director = $.map(director.split(','), function(string) {return string.trim();}).join(', ');
         var actors = $('#BobMovie .bobMovieContent .info dd').first().text().trim();
         actors = $.map(actors.split(','), function(string) {return string.trim();}).join(', ');
-        var year = $('#BobMovie .year').html();
-        var rating = $('#BobMovie .mpaaRating').html();
-        var duration = $('#BobMovie .duration').html();
+        var year = $('#BobMovie .year').text();
+        var rating = $('#BobMovie .mpaaRating').text();
+        var duration = $('#BobMovie .duration').text();
         var plot = $('#BobMovie .bobMovieContent').clone().find('.readMore, .info, .midBob').remove().end().text().trim();
 
         movieData['Director'] = movieData['Director'] || director;
@@ -71,6 +71,7 @@ function cineplusModel() {
         movieData['Plot'] = movieData['Plot'] || plot;
         movieData['hasMovieInfo'] = true;
         movieData['hasNetflixInfo'] = true;
+
         callback(movieData);
     };
 
@@ -249,7 +250,7 @@ function cineplusController() {
     this.view = new cineplusView();
     this.netflixObserver = new MutationObserver(function(mutations) {
         controller.model.netflixInfoReady.bind(controller.model)(
-            $('#BobMovie .title').html(),
+            $('#BobMovie .title').text(),
             controller.view.displayMovieData.bind(controller.view)
         );
     });
@@ -259,7 +260,7 @@ function cineplusController() {
         $(document).on('mouseenter', '.boxShot, .lockup', function() {
             var hoverMovieId = $(this).find('.playLink, .playHover').attr('data-uitrack').split(',')[0];
             controller.view.addMoreInfoButton($(this), hoverMovieId);
-            controller.netflixObserver.observe(document.querySelector('#BobMovie'), controller.netflixObserverConfig);
+            controller.netflixObserver.observe(document.querySelector('#BobMovie, #bob-container'), controller.netflixObserverConfig);
         });
 
         $(document).on('mouseleave', '.boxShot, .lockup', function() {
