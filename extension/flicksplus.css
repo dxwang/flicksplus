@@ -1,5 +1,28 @@
 
-@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,700,600);
+@font-face {
+    font-family: 'opensans';
+    src: url('chrome-extension://__MSG_@@extension_id__/fonts/opensans-light-webfont.eot');
+    src: url('chrome-extension://__MSG_@@extension_id__/fonts/opensans-light-webfont.eot?#iefix') format('embedded-opentype'),
+         url('chrome-extension://__MSG_@@extension_id__/fonts/opensans-light-webfont.woff2') format('woff2'),
+         url('chrome-extension://__MSG_@@extension_id__/fonts/opensans-light-webfont.woff') format('woff'),
+         url('chrome-extension://__MSG_@@extension_id__/fonts/opensans-light-webfont.ttf') format('truetype'),
+         url('chrome-extension://__MSG_@@extension_id__/fonts/opensans-light-webfont#opensans') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'opensansbold';
+    src: url('chrome-extension://__MSG_@@extension_id__/fonts/opensans-semibold-webfont.eot');
+    src: url('chrome-extension://__MSG_@@extension_id__/fonts/opensans-semibold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('chrome-extension://__MSG_@@extension_id__/fonts/opensans-semibold-webfont.woff2') format('woff2'),
+         url('chrome-extension://__MSG_@@extension_id__/fonts/opensans-semibold-webfont.woff') format('woff'),
+         url('chrome-extension://__MSG_@@extension_id__/fonts/opensans-semibold-webfont.ttf') format('truetype'),
+         url('chrome-extension://__MSG_@@extension_id__/fonts/opensans-semibold-webfont.svg#opensansbold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
 
 #hd {
 	height: 78px !important;
@@ -67,7 +90,7 @@
 	width: 50%;
 	margin-top: 100px;
 	margin-left: 4%;
-	font-family: 'Open Sans', 'Arial', sans-serif;
+	font-family: 'opensans';
 }
 
 .rt-rating,
@@ -95,8 +118,9 @@
 	background-repeat: no-repeat;
 	background-size: contain;
 	margin-bottom: 7px;
-	font-size: 30px;
+	font-size: 33px;
 	font-weight: 600;
+	font-family: 'opensansbold';
 	position: relative;
 }
 
@@ -161,7 +185,7 @@
 .info-blob {
 	clear: both;
 	margin: 0 30px;
-	font-family: 'Open Sans', 'Arial', sans-serif;
+	font-family: 'opensans';
 	color: rgba(245,245,245, 0.9);
 	padding-top: 40px;
 	font-size: 16px;
@@ -172,6 +196,7 @@
 	font-size: 28px;
 	margin-bottom: 20px;
 	font-weight: 600;
+	font-family: opensansbold;
 }
 
 .directed-by, 
@@ -182,6 +207,9 @@
 	font-size: 12px;
 }
 
+.starring {
+	line-height: 1.5;
+}
 .directed-by span,
 .starring span {
 	font-weight: 300;
@@ -261,7 +289,7 @@
 	font-size: 11px;
 	font-weight: 300;
 	opacity: 0.89;
-	font-family: 'Open Sans', sans-serif;
+	font-family: 'opensans';
 	transition: all 0.5s;
 }
 

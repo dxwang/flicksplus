@@ -35,6 +35,16 @@
        "img/oscars-icon.png",
        "img/golden-icon.png",
        "img/emmys-icon.png",
-       "img/spinner.png"
+       "img/spinner.png",
+       "fonts/opensans-semibold-webfont.eot",
+       "fonts/opensans-semibold-webfont.svg",
+       "fonts/opensans-semibold-webfont.ttf",
+       "fonts/opensans-semibold-webfont.woff",
+       "fonts/opensans-semibold-webfont.woff2",
+       "fonts/opensans-light-webfont.eot",
+       "fonts/opensans-light-webfont.svg",
+       "fonts/opensans-light-webfont.ttf",
+       "fonts/opensans-light-webfont.woff",
+       "fonts/opensans-light-webfont.woff2"
   ]
 }
