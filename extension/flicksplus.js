@@ -77,7 +77,7 @@ function cineplusModel() {
     };
 
     this.getOmdbInfo_ = function(movieData, callback) {
-        var omdbRequestUrl = 'http://cineplus.co:8001/?site=OMDB&title=' + movieData.Title;
+        var omdbRequestUrl = 'http://54.69.188.189:8001/?site=OMDB&title=' + movieData.Title;
         $.ajax({
             type: "GET", 
             url: omdbRequestUrl, 
@@ -109,7 +109,7 @@ function cineplusModel() {
     };
 
     this.getRTInfo_ = function(movieData, callback) {
-        var rtRequestUrl = 'http://cineplus.co:8001/?site=RT&title=' + encodeURIComponent(movieData.Title + ' ' + movieData.Year);
+        var rtRequestUrl = 'http://54.69.188.189:8001/?site=RT&title=' + encodeURIComponent(movieData.Title + ' ' + movieData.Year);
         $.ajax({
             type: "GET",
             url: rtRequestUrl,
