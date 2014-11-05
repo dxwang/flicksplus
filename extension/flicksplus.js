@@ -6,32 +6,75 @@ function cineplusModel() {
     this.data = {};
     this.notAvailable = '<div class="not-available">N/A</div>';
 
-    this.getMovieInfo = function(movieName, callback) {
-        if (this.data[movieName]) {
-            callback(this.data[movieName]);
+    this.getMovieInfo = function(movieId, callback) {
+        if (this.data[movieId]) {
+            callback(this.data[movieId]);
         } else {
-            this.data[movieName] = {
-                'Title': movieName
+            this.data[movieId] = {
+                'id': movieId
             };
-            this.getOmdbInfo_(this.data[movieName], callback);
-            callback(this.data[movieName]);
+            this.getNetflixInfo_(this.data[movieId], callback);
+            this.getOmdbInfo_(this.data[movieId], callback);
+            this.getRTInfo_(this.data[movieId], callback);
+            // Insert a spinner here.
         }
     };
 
-    this.netflixInfoReady = function(movieName, callback) {
-        if (movieName) {
-            movieName = movieName.trim();
-            if (this.data[movieName]) {
-                if (!this.data[movieName].hasNetflixInfo) {
-                    this.getNetflixInfo_(this.data[movieName], callback);
+    this.netflixInfoReady = function(movieId, callback) {
+        console.log(movieId);
+        if (movieId) {
+            movieId = movieId.trim();
+            if (this.data[movieId]) {
+                if (!this.data[movieId]['hasNetflixInfo']) {
+                    this.setNetflixInfo_(this.data[movieId], callback);
                 }
             } else {
-                this.data[movieName] = {
-                    'Title': movieName
+                this.data[movieId] = {
+                    'id': movieId
                 };
-                this.getNetflixInfo_(this.data[movieName], callback);
+                this.setNetflixInfo_(this.data[movieId], callback);
             }
         }
+    };
+
+    this.getNetflixInfo_ = function(movieData, callback) {
+        var netflixRequestUrl = 'http://54.69.188.189:8001/get?site=Netflix&id=' + movieData.id;
+        $.ajax({
+            type: "GET",
+            url: netflixRequestUrl,
+            dataType: 'json',
+            success: function(movieInfo) {
+                $.extend(movieData, movieInfo); 
+                movieData['hasNetflixInfo'] = true
+            },
+            complete: function() {
+                callback(movieData);
+            }
+        })
+    };
+
+    this.getOmdbInfo_ = function(movieData, callback) {
+        var omdbRequestUrl = 'http://54.69.188.189:8001/get?site=OMDB&id=' + movieData.id;
+        $.ajax({
+            type: "GET", 
+            url: omdbRequestUrl, 
+            dataType: 'json', 
+            success: function(movieInfo){
+                movieData['imdbRating'] = movieInfo['imdbRating'] || cineplusModel.notAvailable;
+                movieData['Metascore'] = movieInfo['Metascore'] || cineplusModel.notAvailable;
+                movieData['Awards'] = movieInfo['Awards'] || '';
+                if (movieInfo['imdbRating'] === 'N/A') {
+                    movieData['imdbRating'] = cineplusModel.notAvailable;
+                }
+                if (movieInfo['Metascore'] === 'N/A') {
+                    movieData['Metascore'] = cineplusModel.notAvailable;
+                }
+                cineplusModel.formatAwardData_(movieData);
+            },
+            complete: function() {
+                callback(movieData);
+            }
+        });
     };
 
     this.formatAwardData_ = function(movieData) {
@@ -52,64 +95,8 @@ function cineplusModel() {
         movieData['awardData'] = awardData;
     };
 
-    this.getNetflixInfo_ = function(movieData, callback) {
-        var director = $('#BobMovie .bobMovieContent .info dd').last().text().trim();
-        director = $.map(director.split(','), function(string) {return string.trim();}).join(', ');
-        var actors = $('#BobMovie .bobMovieContent .info dd').first().text().trim();
-        actors = $.map(actors.split(','), function(string) {return string.trim();}).join(', ');
-        var year = $('#BobMovie .year').text();
-        var rating = $('#BobMovie .mpaaRating').text();
-        var duration = $('#BobMovie .duration').text();
-        var plot = $('#BobMovie .bobMovieContent').clone().find('.readMore, .info, .midBob').remove().end().text().trim();
-
-        movieData['Director'] = movieData['Director'] || director;
-        movieData['Actors'] = movieData['Actors'] || actors;
-        movieData['Year'] = movieData['Year'] || year;
-        movieData['Rated'] = movieData['Rated'] || rating;
-        movieData['Runtime'] = movieData['Runtime'] || duration;
-        movieData['Plot'] = movieData['Plot'] || plot;
-        movieData['hasMovieInfo'] = true;
-        movieData['hasNetflixInfo'] = true;
-
-        this.getRTInfo_(movieData, callback);
-
-        callback(movieData);
-    };
-
-    this.getOmdbInfo_ = function(movieData, callback) {
-        var omdbRequestUrl = 'http://54.69.188.189:8001/?site=OMDB&title=' + movieData.Title;
-        $.ajax({
-            type: "GET", 
-            url: omdbRequestUrl, 
-            dataType: 'json', 
-            success: function(movieInfo){
-                if (!movieData.hasMovieInfo && movieInfo.Response) {
-                    $.map(movieInfo, function(val, key) {
-                        movieInfo[key] = (val === 'N/A') ? '' : val;
-                    });
-                    $.extend(movieData, movieInfo);
-                    movieData['hasMovieInfo'] = true;
-                }
-                movieData['imdbRating'] = movieInfo['imdbRating'] || cineplusModel.notAvailable;
-                movieData['Metascore'] = movieInfo['Metascore'] || cineplusModel.notAvailable;
-                movieData['Awards'] = movieInfo['Awards'] || '';
-                if (movieInfo['imdbRating'] === 'N/A') {
-                    movieData['imdbRating'] = cineplusModel.notAvailable;
-                }
-                if (movieInfo['Metascore'] === 'N/A') {
-                    movieData['Metascore'] = cineplusModel.notAvailable;
-                }
-                cineplusModel.formatAwardData_(movieData);
-                cineplusModel.getRTInfo_(movieData, callback);
-            },
-            complete: function() {
-                callback(movieData);
-            }
-        });
-    };
-
     this.getRTInfo_ = function(movieData, callback) {
-        var rtRequestUrl = 'http://54.69.188.189:8001/?site=RT&title=' + encodeURIComponent(movieData.Title + ' ' + movieData.Year);
+        var rtRequestUrl = 'http://54.69.188.189:8001/get?site=RT&id=' + movieData.id;
         $.ajax({
             type: "GET",
             url: rtRequestUrl,
@@ -125,11 +112,59 @@ function cineplusModel() {
             }
         });
     };
+
+    this.setNetflixInfo_ = function(movieData, element, callback) {
+        var title = ('#BobMovie .title').text().trim();
+        var directors = $('#BobMovie .bobMovieContent .info dd').last().text().trim();
+        directors = $.map(directors.split(','), function(string) {return string.trim();}).join(', ');
+        var actors = $('#BobMovie .bobMovieContent .info dd').first().text().trim();
+        actors = $.map(actors.split(','), function(string) {return string.trim();}).join(', ');
+        var year = $('#BobMovie .year').text().trim();
+        var rating = $('#BobMovie .mpaaRating').text().trim();
+        var duration = $('#BobMovie .duration').text().trim();
+        var plot = $('#BobMovie .bobMovieContent').clone().find('.readMore, .info, .midBob').remove().end().text().trim();
+
+        movieData['title'] = title;
+        movieData['directors'] = directors;
+        movieData['actors'] = actors;
+        movieData['year'] = year;
+        movieData['rating'] = rating;
+        movieData['runtime'] = duration;
+        movieData['plot'] = plot;
+        movieData['hasNetflixInfo'] = true;
+
+        this.sendNetflixInfo_(movieData, callback);
+        callback(movieData);
+    };
+
+    this.sendNetflixInfo_ = function(movieData, callback) {
+        var netflixSendUrl = ([
+            'http://54.69.188.189:8001/set?site=Netflix',
+            '&id=' + encodeURIComponent(movieData['id']),
+            '&title=' + encodeURIComponent(movieData['title']),
+            '&directors=' + encodeURIComponent(movieData['directors']),
+            '&actors=' + encodeURIComponent(movieData['actors']),
+            '&year=' + encodeURIComponent(movieData['year']),
+            '&rating=' + encodeURIComponent(movieData['rating']),
+            '&runtime=' + encodeURIComponent(movieData['runtime']),
+            '&plot=' + encodeURIComponent(movieData['plot'])
+        ]).join('')
+        $.ajax({
+            type: "GET",
+            url: netflixSendUrl,
+            dataType: 'json',
+            complete: function() {
+                cineplusModel.getOmdbInfo_(movieData, callback);
+                cineplusModel.getRTInfo_(movieData, callback);
+            }
+        });
+    };
+
 };
 
 
 function cineplusView() {
-    this.movieName = '';
+    this.movieId = '';
     $('.connect-overlay.connect').remove();
     $('body').append('<div class="added-description"><div class="nested-div"><h2 class="opening-title">What would you like to watch today?</h2></div></div>');
 
@@ -147,8 +182,8 @@ function cineplusView() {
         $('#BobMovie, #bob-container').css('margin-top', '-999px');
     };
 
-    this.setMovieName = function(movieName) {
-        this.movieName = movieName;
+    this.setMovieId = function(movieId) {
+        this.movieId = movieId;
     }
 
     this.addMoreInfoButton = function(element, movieId) {
@@ -161,8 +196,8 @@ function cineplusView() {
     };
 
     this.displayMovieData = function(movieData) {
-        if (this.isSameMovie_(movieData.Title, this.movieName)) {
-            this.displayOmdbData_(movieData);
+        if (movieData.id === this.movieId) {
+            this.displayMovieData_(movieData);
             this.displayRatingsData_(movieData);
             this.displayAwardsData_(movieData['awardData'] || {});
         }
@@ -177,32 +212,34 @@ function cineplusView() {
             name2.toUpperCase().indexOf(name1.toUpperCase()) > -1);
     };
 
-    this.displayOmdbData_ = function(info) {
-        $('.info-blob').html([
-            "<div class='movie-title'>", 
-                (info.Title || ''),
-            "</div>",
-            "<div class='directed-by'>",
-                "<span>Director: </span>", 
-                (info.Director || ''),
-            "</div>",
-            "<div class='starring'>",
-                "<span>Starring: </span>", 
-                (info.Actors || ''),
-            "</div>",
-            "<div class='year-produced'>",
-                (info.Year || ''),
-                "<span class='maturity-rating'>",
-                    (info.Rated || ''),
-                "</span>",
-                "<span class='duration'>",
-                    (info.Runtime || ''),
-                "</span>",
-            "</div>",
-            "<div class='info-description'>",
-                (info.Plot || '') + ' ',
-            "</div>"
-        ].join(''));
+    this.displayMovieData_ = function(info) {
+        if (info.hasNetflixInfo) {
+            $('.info-blob').html([
+                "<div class='movie-title'>", 
+                    (info.title || ''),
+                "</div>",
+                "<div class='directed-by'>",
+                    "<span>Director: </span>", 
+                    (info.directors || ''),
+                "</div>",
+                "<div class='starring'>",
+                    "<span>Starring: </span>", 
+                    (info.actors || ''),
+                "</div>",
+                "<div class='year-produced'>",
+                    (info.year || ''),
+                    "<span class='maturity-rating'>",
+                        (info.rating || ''),
+                    "</span>",
+                    "<span class='duration'>",
+                        (info.runtime || ''),
+                    "</span>",
+                "</div>",
+                "<div class='info-description'>",
+                    (info.plot || '') + ' ',
+                "</div>"
+            ].join(''));
+        }
     };
 
     this.displayRatingsData_ = function(info) {
@@ -252,7 +289,7 @@ function cineplusController() {
     this.view = new cineplusView();
     this.netflixObserver = new MutationObserver(function(mutations) {
         controller.model.netflixInfoReady.bind(controller.model)(
-            $('#BobMovie .title').text(),
+            $('#BobMovie .agMovie').attr('id'),
             controller.view.displayMovieData.bind(controller.view)
         );
     });
@@ -272,10 +309,11 @@ function cineplusController() {
 
         $(document).on('mouseover', '.boxShot, .lockup', function(e) {
             var element = $(e.target).parent().find('.boxShotImg, .boxart');
-            var movieName = element.attr('alt').trim();
+            var movieId = $(this).find('.playLink, .playHover').attr('data-uitrack').split(',')[0];
+            movieId = 'bob' + movieId;
             controller.view.reset(element);
-            controller.view.setMovieName(movieName);
-            controller.model.getMovieInfo(movieName, controller.view.displayMovieData.bind(controller.view));
+            controller.view.setMovieId(movieId);
+            controller.model.getMovieInfo(movieId, controller.view.displayMovieData.bind(controller.view));
         });
     };
 };
