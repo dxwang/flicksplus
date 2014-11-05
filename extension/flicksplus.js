@@ -16,12 +16,12 @@ function cineplusModel() {
             this.getNetflixInfo_(this.data[movieId], callback);
             this.getOmdbInfo_(this.data[movieId], callback);
             this.getRTInfo_(this.data[movieId], callback);
-            // Insert a spinner here.
+            callback(this.data[movieId]);
         }
     };
 
-    this.netflixInfoReady = function(movieId, callback) {
-        console.log(movieId);
+    this.netflixInfoReady = function(callback) {
+        var movieId = $('#BobMovie .agMovie').attr('id') || 'bob' + $('#bob-container #bob').attr('data-titleid');
         if (movieId) {
             movieId = movieId.trim();
             if (this.data[movieId]) {
@@ -113,16 +113,27 @@ function cineplusModel() {
         });
     };
 
-    this.setNetflixInfo_ = function(movieData, element, callback) {
-        var title = ('#BobMovie .title').text().trim();
-        var directors = $('#BobMovie .bobMovieContent .info dd').last().text().trim();
-        directors = $.map(directors.split(','), function(string) {return string.trim();}).join(', ');
-        var actors = $('#BobMovie .bobMovieContent .info dd').first().text().trim();
-        actors = $.map(actors.split(','), function(string) {return string.trim();}).join(', ');
-        var year = $('#BobMovie .year').text().trim();
-        var rating = $('#BobMovie .mpaaRating').text().trim();
-        var duration = $('#BobMovie .duration').text().trim();
-        var plot = $('#BobMovie .bobMovieContent').clone().find('.readMore, .info, .midBob').remove().end().text().trim();
+    this.setNetflixInfo_ = function(movieData, callback) {
+        if ($('#BobMovie').length) {
+            var title = $('#BobMovie .title').text().trim();
+            var directors = $('#BobMovie .bobMovieContent .info dd').last().text().trim();
+            directors = $.map(directors.split(','), function(string) {return string.trim();}).join(', ');
+            var actors = $('#BobMovie .bobMovieContent .info dd').first().text().trim();
+            actors = $.map(actors.split(','), function(string) {return string.trim();}).join(', ');
+            var year = $('#BobMovie .year').text().trim();
+            var rating = $('#BobMovie .mpaaRating').text().trim();
+            var duration = $('#BobMovie .duration').text().trim();
+            var plot = $('#BobMovie .bobMovieContent').clone().find('.readMore, .info, .midBob').remove().end().text().trim();
+        } else if ($('#bob-container').length) {
+            var title = $('#bob .title').text().trim();
+            var people = $('#bob .persons').text().trim().split('  ').filter(function(item) {return item;});
+            var actors = (people[0] || ':').split(':')[1];
+            var directors = (people[1] || ':').split(':')[1];
+            var year = $('#bob .year').text().trim();
+            var rating = $('#bob .mpaaRating').text().trim();
+            var duration = $('#bob .runtime').text().trim();
+            var plot = $('#bob .synopsis').clone().find('.mdpLink').remove().end().text().trim();
+        }
 
         movieData['title'] = title;
         movieData['directors'] = directors;
@@ -161,7 +172,6 @@ function cineplusModel() {
     };
 
 };
-
 
 function cineplusView() {
     this.movieId = '';
@@ -216,29 +226,31 @@ function cineplusView() {
         if (info.hasNetflixInfo) {
             $('.info-blob').html([
                 "<div class='movie-title'>", 
-                    (info.title || ''),
+                    (info.title || 'N/A'),
                 "</div>",
                 "<div class='directed-by'>",
                     "<span>Director: </span>", 
-                    (info.directors || ''),
+                    (info.directors || 'N/A'),
                 "</div>",
                 "<div class='starring'>",
                     "<span>Starring: </span>", 
-                    (info.actors || ''),
+                    (info.actors || 'N/A'),
                 "</div>",
                 "<div class='year-produced'>",
-                    (info.year || ''),
+                    (info.year || 'N/A'),
                     "<span class='maturity-rating'>",
-                        (info.rating || ''),
+                        (info.rating || 'N/A'),
                     "</span>",
                     "<span class='duration'>",
-                        (info.runtime || ''),
+                        (info.runtime || 'N/A'),
                     "</span>",
                 "</div>",
                 "<div class='info-description'>",
-                    (info.plot || '') + ' ',
+                    (info.plot || 'N/A') + ' ',
                 "</div>"
             ].join(''));
+        } else {
+            $('.info-blob').html('<div class="loading-score"></div>');
         }
     };
 
@@ -289,7 +301,6 @@ function cineplusController() {
     this.view = new cineplusView();
     this.netflixObserver = new MutationObserver(function(mutations) {
         controller.model.netflixInfoReady.bind(controller.model)(
-            $('#BobMovie .agMovie').attr('id'),
             controller.view.displayMovieData.bind(controller.view)
         );
     });
