@@ -1,0 +1,207 @@
+BrightTag.instance.errors({enabled:false});
+BrightTag.instance.dbe('sub region (signup or movies)', 'function subregion() {\r\n    var country \x3d netflix.constants.page[\x22COUNTRY\x22];\r\n    if (country \x3d\x3d \x27SE\x27 || country \x3d\x3d \x27FI\x27 || country \x3d\x3d \x27NO\x27 || country \x3d\x3d \x27DK\x27) {\r\n        return \x22NORDICS\x22;\r\n    } else if (country \x3d\x3d \x27AG\x27 || country \x3d\x3d \x27AI\x27 || country \x3d\x3d \x27AN\x27 || country \x3d\x3d \x27AR\x27 || country \x3d\x3d \x27AW\x27 || country \x3d\x3d \x27BB\x27 || country \x3d\x3d \x27BL\x27 || country \x3d\x3d \x27BM\x27 || country \x3d\x3d \x27BO\x27 || country \x3d\x3d \x27BQ\x27 || country \x3d\x3d \x27BR\x27 || country \x3d\x3d \x27BS\x27 || country \x3d\x3d \x27BZ\x27 || country \x3d\x3d \x27CL\x27 || country \x3d\x3d \x27CO\x27 || country \x3d\x3d \x27CR\x27 || country \x3d\x3d \x27CW\x27 || country \x3d\x3d \x27DM\x27 || country \x3d\x3d \x27DO\x27 || country \x3d\x3d \x27EC\x27 || country \x3d\x3d \x27GD\x27 || country \x3d\x3d \x27GF\x27 || country \x3d\x3d \x27GP\x27 || country \x3d\x3d \x27GT\x27 || country \x3d\x3d \x27GY\x27 || country \x3d\x3d \x27HN\x27 || country \x3d\x3d \x27HT\x27 || country \x3d\x3d \x27JM\x27 || country \x3d\x3d \x27KN\x27 || country \x3d\x3d \x27KY\x27 || country \x3d\x3d \x27LC\x27 || country \x3d\x3d \x27MF\x27 || country \x3d\x3d \x27MQ\x27 || country \x3d\x3d \x27MS\x27 || country \x3d\x3d \x27MX\x27 || country \x3d\x3d \x27NI\x27 || country \x3d\x3d \x27PA\x27 || country \x3d\x3d \x27PE\x27 || country \x3d\x3d \x27PY\x27 || country \x3d\x3d \x27SR\x27 || country \x3d\x3d \x27SV\x27 || country \x3d\x3d \x27SX\x27 || country \x3d\x3d \x27TC\x27 || country \x3d\x3d \x27TT\x27 || country \x3d\x3d \x27UY\x27 || country \x3d\x3d \x27VC\x27 || country \x3d\x3d \x27VE\x27 || country \x3d\x3d \x27VG\x27) {\r\n        return \x22LATIN_AMERICA\x22;\r\n    } else if (country \x3d\x3d \x27GB\x27 || country \x3d\x3d \x27GG\x27 || country \x3d\x3d \x27IE\x27 || country \x3d\x3d \x27IM\x27 || country \x3d\x3d \x27JE\x27) {\r\n        return \x22UK\x22;\r\n    } else if (country \x3d\x3d \x27US\x27 || country \x3d\x3d \x27CA\x27) {\r\n        return \x22NORTH_AMERICA\x22;\r\n    } else if (country \x3d\x3d \x27NL\x27) {\r\n        return \x22NETHERLANDS\x22;\r\n    } else {\r\n        return \x22\x22;\r\n    }\r\n}\r\nsubregion();', {pageId:17289});
+BrightTag.instance.dbe('nanigans pid', 'bt_parameter(\x27nan_pid\x27)', {pageId:17289});
+BrightTag.instance.dbe('region (signup or movies)', 'function subregion() {\r\n    var country \x3d netflix.constants.page[\x22COUNTRY\x22];\r\n    if (country \x3d\x3d \x27SE\x27 || country \x3d\x3d \x27FI\x27 || country \x3d\x3d \x27NO\x27 || country \x3d\x3d \x27DK\x27) {\r\n        return \x22NORDICS\x22;\r\n    } else if (country \x3d\x3d \x27AG\x27 || country \x3d\x3d \x27AI\x27 || country \x3d\x3d \x27AN\x27 || country \x3d\x3d \x27AR\x27 || country \x3d\x3d \x27AW\x27 || country \x3d\x3d \x27BB\x27 || country \x3d\x3d \x27BL\x27 || country \x3d\x3d \x27BM\x27 || country \x3d\x3d \x27BO\x27 || country \x3d\x3d \x27BQ\x27 || country \x3d\x3d \x27BR\x27 || country \x3d\x3d \x27BS\x27 || country \x3d\x3d \x27BZ\x27 || country \x3d\x3d \x27CL\x27 || country \x3d\x3d \x27CO\x27 || country \x3d\x3d \x27CR\x27 || country \x3d\x3d \x27CW\x27 || country \x3d\x3d \x27DM\x27 || country \x3d\x3d \x27DO\x27 || country \x3d\x3d \x27EC\x27 || country \x3d\x3d \x27GD\x27 || country \x3d\x3d \x27GF\x27 || country \x3d\x3d \x27GP\x27 || country \x3d\x3d \x27GT\x27 || country \x3d\x3d \x27GY\x27 || country \x3d\x3d \x27HN\x27 || country \x3d\x3d \x27HT\x27 || country \x3d\x3d \x27JM\x27 || country \x3d\x3d \x27KN\x27 || country \x3d\x3d \x27KY\x27 || country \x3d\x3d \x27LC\x27 || country \x3d\x3d \x27MF\x27 || country \x3d\x3d \x27MQ\x27 || country \x3d\x3d \x27MS\x27 || country \x3d\x3d \x27MX\x27 || country \x3d\x3d \x27NI\x27 || country \x3d\x3d \x27PA\x27 || country \x3d\x3d \x27PE\x27 || country \x3d\x3d \x27PY\x27 || country \x3d\x3d \x27SR\x27 || country \x3d\x3d \x27SV\x27 || country \x3d\x3d \x27SX\x27 || country \x3d\x3d \x27TC\x27 || country \x3d\x3d \x27TT\x27 || country \x3d\x3d \x27UY\x27 || country \x3d\x3d \x27VC\x27 || country \x3d\x3d \x27VE\x27 || country \x3d\x3d \x27VG\x27) {\r\n        return \x22LATIN_AMERICA\x22;\r\n    } else if (country \x3d\x3d \x27GB\x27 || country \x3d\x3d \x27GG\x27 || country \x3d\x3d \x27IE\x27 || country \x3d\x3d \x27IM\x27 || country \x3d\x3d \x27JE\x27) {\r\n        return \x22UK\x22;\r\n    } else if (country \x3d\x3d \x27US\x27 || country \x3d\x3d \x27CA\x27) {\r\n        return \x22NORTH_AMERICA\x22;\r\n    } else if (country \x3d\x3d \x27NL\x27) {\r\n        return \x22NETHERLANDS\x22;\r\n    } else {\r\n        return \x22\x22;\r\n    }\r\n}\r\nsubregion();', {pageId:17289});
+BrightTag.instance.dbe('is member /wihome impression', 'function isMemberWiHomeImpression() {\r\n    if (typeof netflix !\x3d \x27undefined\x27 \x26\x26 typeof netflix.constants !\x3d \x27undefined\x27 \x26\x26 typeof netflix.constants.page !\x3d \x27undefined\x27) {\r\n        var status \x3d netflix.constants.page[\x22brighttag.memberType\x22];\r\n        if (typeof status \x3d\x3d \x27undefined\x27 || status \x3d\x3d \x27\x27) {\r\n            return true;\r\n        } else {\r\n            return \x22CURRENT_MEMBER\x22 \x3d\x3d status;\r\n        }\r\n    } else {\r\n        return false;\r\n    }\r\n}\r\n\r\nisMemberWiHomeImpression();', {pageId:17289});
+BrightTag.instance.dbe('country (signup or movies)', 'netflix.constants.page[\x22COUNTRY\x22]', {pageId:17289});
+BrightTag.instance.dbe('anonymous or non-member', 'function anonOrNon () {\r\n    if (typeof netflix !\x3d \x27undefined\x27) {\r\n        if (typeof netflix.tracking !\x3d \x27undefined\x27 \x26\x26 typeof netflix.tracking.anonornon !\x3d \x27undefined\x27) {\r\n            return netflix.tracking.anonornon;\r\n        } else if (typeof netflix.constants !\x3d \x27undefined\x27 \x26\x26 typeof netflix.constants.page !\x3d \x27undefined\x27) {\r\n            var status \x3d netflix.constants.page[\x22brighttag.memberType\x22];\r\n            return \x22NON_REGISTERED_MEMBER\x22 \x3d\x3d status || \x22ANONYMOUS\x22 \x3d\x3d status || \x22NON_MEMBER\x22 \x3d\x3d status;\r\n        }\r\n    }\r\n    return false;\r\n}\r\n\r\nanonOrNon();', {pageId:17289});
+BrightTag.instance.appendContent('\x3c!--\nStart of DoubleClick Floodlight Tag: Please do not remove\nActivity name of this tag: (Global) :: All ODP (For Cookie Sync)\nURL of the webpage where the tag is expected to be placed: http://movies.netflix.com/movie/\nThis tag must be placed between the \x3cbody\x3e and \x3c/body\x3e tags, as close as possible to the opening tag.\nCreation Date: 06/05/2014\n--\x3e\n\x3cscript type\x3d\x22text/javascript\x22\x3e\nvar axel \x3d Math.random() + \x22\x22;\nvar a \x3d axel * 10000000000000 + \x22\x22;\ndocument.write(\x27\x3ciframe src\x3d\x22https://4396297.fls.doubleclick.net/activityi;src\x3d4396297;type\x3dgl-al0;cat\x3dGloba0;ord\x3d\x27 + a + \x27?\x22 width\x3d\x221\x22 height\x3d\x221\x22 frameborder\x3d\x220\x22 style\x3d\x22display:none\x22\x3e\x3c/iframe\x3e\x27);\njQuery.ajax({ \n    type: \x22POST\x22, \n    url: \x27/ichnaea/log\x27,\n    data: JSON.stringify({ \x22events\x22: [ {\n        \x22name\x22:\x22adVendorSync\x22,\n        \x22data\x22: {\n            \x22ad_vendor_sync_type\x22:\x22doubleclick\x22,\n            \x22ad_vendor_sync_id\x22: a\n            }\n            } ]\n    }),\n    contentType:  \x27application/json\x27,\n    beforeSend :  function (request) { request.setRequestHeader(\x22X-Netflix.ichnaea.request.type\x22, \x22IchnaeaRequest\x22); }\n});\n\x3c/script\x3e\n\n\x3c!-- End of DoubleClick Floodlight Tag: Please do not remove --\x3e',{tagId:1132134});
+BrightTag.instance.secondary(function(serverURL) {
+try { if (eval('bt_data(\x27sub region (signup or movies)\x27) \x3d\x3d \x27UK\x27')) {
+serverURL.cf(27293);
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('bt_data(\x27country (signup or movies)\x27) \x3d\x3d \x27DK\x27 \x26\x26 bt_data(\x27is member /wihome impression\x27)')) {
+serverURL.cf(27294);
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('bt_data(\x27country (signup or movies)\x27) \x3d\x3d \x27FI\x27 \x26\x26 bt_data(\x27is member /wihome impression\x27)')) {
+serverURL.cf(27295);
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('bt_data(\x27country (signup or movies)\x27) \x3d\x3d \x27NO\x27 \x26\x26 bt_data(\x27is member /wihome impression\x27)')) {
+serverURL.cf(27296);
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('bt_data(\x27country (signup or movies)\x27) \x3d\x3d \x27SE\x27 \x26\x26 bt_data(\x27is member /wihome impression\x27)')) {
+serverURL.cf(27297);
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('bt_data(\x27is member /wihome impression\x27)')) {
+serverURL.cf(29322);
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('bt_data(\x27country (signup or movies)\x27) \x3d\x3d \x27UK\x27')) {
+serverURL.cf(29323);
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('bt_data(\x27country (signup or movies)\x27) \x3d\x3d \x27BR\x27 \x26\x26 bt_data(\x27is member /wihome impression\x27)')) {
+serverURL.cf(29324);
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('bt_data(\x27sub region (signup or movies)\x27) \x3d\x3d Nordics')) {
+serverURL.cf(29398);
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('bt_data(\x27sub region (signup or movies)\x27) \x3d\x3d \x27UK\x27')) {
+serverURL.cf(63430);
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('bt_data(\x27sub region (signup or movies)\x27) \x3d\x3d \x27NORDICS\x27')) {
+serverURL.cf(63431);
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('bt_data(\x27sub region (signup or movies)\x27) \x3d\x3d \x27NORDICS\x27 \x26\x26 bt_data(\x27is member /wihome impression\x27) \x3d\x3d false')) {
+serverURL.cf(84759);
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('bt_data(\x27sub region (signup or movies)\x27) \x3d\x3d \x27NORDICS\x27 \x26\x26 bt_data(\x27is member /wihome impression\x27)')) {
+serverURL.cf(84885);
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('bt_data(\x27sub region (signup or movies)\x27) \x3d\x3d \x27UK\x27 \x26\x26 bt_data(\x27is member /wihome impression\x27) \x3d\x3d false')) {
+serverURL.cf(84948);
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('bt_data(\x27sub region (signup or movies)\x27) \x3d\x3d \x27UK\x27 \x26\x26 bt_data(\x27is member /wihome impression\x27)')) {
+serverURL.cf(85047);
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('bt_data(\x27sub region (signup or movies)\x27) \x3d\x3d \x27UK\x27 \x26\x26 bt_data(\x27is member /wihome impression\x27) \x3d\x3d false')) {
+serverURL.cf(229026);
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('bt_data(\x27sub region (signup or movies)\x27) \x3d\x3d \x27UK\x27 \x26\x26 bt_data(\x27is member /wihome impression\x27)')) {
+serverURL.cf(231819);
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('bt_data(\x27is member /wihome impression\x27) \x26\x26 (bt_data(\x27country (signup or movies)\x27) \x3d\x3d \x27US\x27 || bt_data(\x27country (signup or movies)\x27) \x3d\x3d \x27CA\x27)')) {
+serverURL.cf(279309);
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('bt_data(\x27sub region (signup or movies)\x27) \x3d\x3d \x27NORDICS\x27')) {
+serverURL.cf(288169);
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('\x27NETHERLANDS\x27\x3d\x3dbt_data(\x27sub region (signup or movies)\x27)')) {
+serverURL.cf(570099);
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('(bt_data(\x27sub region (signup or movies)\x27) \x3d\x3d \x22NETHERLANDS\x22)')) {
+serverURL.cf(570102);
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('(bt_data(\x27region (signup or movies)\x27) \x3d\x3d \x22LATIN_AMERICA\x22 \x26\x26 bt_data(\x27country (signup or movies)\x27) !\x3d \x22BR\x22 \x26\x26 bt_data(\x27country (signup or movies)\x27) !\x3d \x22MX\x22 \x26\x26 bt_data(\x27anonymous or non-member\x27) \x3d\x3d true)')) {
+serverURL.cf(604200);
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('bt_data(\x27country (signup or movies)\x27) \x3d\x3d \x27CA\x27 \x26\x26 bt_data(\x27is member /wihome impression\x27)')) {
+serverURL.cf(621107);
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('bt_data(\x27country (signup or movies)\x27) \x3d\x3d \x27US\x27 \x26\x26 bt_data(\x27is member /wihome impression\x27)')) {
+serverURL.cf(621125);
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('bt_data(\x27country (signup or movies)\x27) \x3d\x3d \x27CA\x27 \x26\x26 bt_data(\x27anonymous or non-member\x27) \x3d\x3d true')) {
+serverURL.cf(625326);
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('bt_data(\x27sub region (signup or movies)\x27) \x3d\x3d \x27UK\x27 \x26\x26 bt_data(\x27is member /wihome impression\x27)')) {
+serverURL.cf(628539);
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('(bt_data(\x27country (signup or movies)\x27) \x3d\x3d \x22US\x22 || bt_data(\x27country (signup or movies)\x27) \x3d\x3d \x22CA\x22)')) {
+serverURL.cf(628584);
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('bt_data(\x27sub region (signup or movies)\x27) \x3d\x3d \x27NORDICS\x27 \x26\x26 bt_data(\x27is member /wihome impression\x27)')) {
+serverURL.cf(628725);
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('bt_data(\x27country (signup or movies)\x27) \x3d\x3d \x22BR\x22')) {
+serverURL.cf(897681);
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('bt_data(\x27country (signup or movies)\x27) \x3d\x3d \x22MX\x22')) {
+serverURL.cf(897695);
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('(bt_data(\x27region (signup or movies)\x27) \x3d\x3d \x22LATIN_AMERICA\x22 \x26\x26 bt_data(\x27country (signup or movies)\x27) !\x3d \x22BR\x22 \x26\x26 bt_data(\x27country (signup or movies)\x27) !\x3d \x22MX\x22)')) {
+serverURL.cf(897702);
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('\x27NETHERLANDS\x27\x3d\x3dbt_data(\x27sub region (signup or movies)\x27) ')) {
+serverURL.cf(903846);
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('\x27NORDICS\x27\x3d\x3dbt_data(\x27sub region (signup or movies)\x27)')) {
+serverURL.cf(1027403);
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('(bt_data(\x27anonymous or non-member\x27) \x3d\x3d true \x26\x26 bt_data(\x27region (signup or movies)\x27) \x3d\x3d \x22EUROPE\x22)')) {
+serverURL.cf(1272189).appendData('visitor id').appendData('nanigans pid');
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('(bt_data(\x27country (signup or movies)\x27) \x3d\x3d \x22US\x22 \x26\x26 bt_data(\x27anonymous or non-member\x27) \x3d\x3d true)')) {
+serverURL.cf(1420534).appendData('visitor id').appendData('nanigans pid');
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('(bt_data(\x27anonymous or non-member\x27) \x3d\x3d true \x26\x26 bt_data(\x27region (signup or movies)\x27) \x3d\x3d \x22NORTH_AMERICA\x22)')) {
+serverURL.cf(1423783).appendData('visitor id').appendData('nanigans pid');
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('(bt_data(\x27anonymous or non-member\x27) \x3d\x3d true \x26\x26 bt_data(\x27country (signup or movies)\x27) \x3d\x3d \x22CA\x22)')) {
+serverURL.cf(1423856).appendData('visitor id').appendData('nanigans pid');
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('(bt_data(\x27country (signup or movies)\x27) \x3d\x3d \x22FR\x22)')) {
+serverURL.cf(1459226);
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('(bt_data(\x27country (signup or movies)\x27) \x3d\x3d \x22FR\x22)')) {
+serverURL.cf(1459239);
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('(bt_data(\x27country (signup or movies)\x27) \x3d\x3d \x22AT\x22 || bt_data(\x27country (signup or movies)\x27) \x3d\x3d \x22CH\x22 || bt_data(\x27country (signup or movies)\x27) \x3d\x3d \x22DE\x22)')) {
+serverURL.cf(1459406);
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('(bt_data(\x27country (signup or movies)\x27) \x3d\x3d \x22DE\x22 || bt_data(\x27country (signup or movies)\x27) \x3d\x3d \x22AT\x22 || bt_data(\x27country (signup or movies)\x27) \x3d\x3d \x22CH\x22)')) {
+serverURL.cf(1459419);
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('(bt_data(\x27country (signup or movies)\x27) \x3d\x3d \x22CH\x22 || bt_data(\x27country (signup or movies)\x27) \x3d\x3d \x22AT\x22 || bt_data(\x27country (signup or movies)\x27) \x3d\x3d \x22DE\x22) \x26\x26 (bt_data(\x27is member /wihome impression\x27))')) {
+serverURL.cf(1465751);
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('bt_data(\x27country (signup or movies)\x27) \x3d\x3d \x22FR\x22 \x26\x26 bt_data(\x27is member /wihome impression\x27)')) {
+serverURL.cf(1466129);
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('(bt_data(\x27country (signup or movies)\x27) \x3d\x3d \x22BE\x22 || bt_data(\x27country (signup or movies)\x27) \x3d\x3d \x22LU\x22) \x26\x26 bt_data(\x27is member /wihome impression\x27)')) {
+serverURL.cf(1466228);
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('bt_data(\x27country (signup or movies)\x27) \x3d\x3d \x22AR\x22')) {
+serverURL.cf(1537417);
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('bt_data(\x27country (signup or movies)\x27) \x3d\x3d \x22CL\x22')) {
+serverURL.cf(1537463);
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('bt_data(\x27country (signup or movies)\x27) \x3d\x3d \x22CO\x22')) {
+serverURL.cf(1537498);
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('bt_data(\x27country (signup or movies)\x27) \x3d\x3d \x22PE\x22')) {
+serverURL.cf(1537625);
+}
+} catch(e) { bt_handle_exception(e); }
+try { if (eval('(bt_data(\x27country (signup or movies)\x27) \x3d\x3d \x22AU\x22 || bt_data(\x27country (signup or movies)\x27) \x3d\x3d \x22NZ\x22)')) {
+serverURL.cf(1613746);
+}
+} catch(e) { bt_handle_exception(e); }
+serverURL.appendData('nanigans pid');
+});
