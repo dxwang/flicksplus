@@ -38,6 +38,34 @@
 	float: left;
 }
 
+.dmbr-container,
+.taste-ribbon {
+	min-width: 200px !important;
+}
+
+.dmbr .content .dmbr-header-container h2.dmbr-header {
+	text-align: left !important;
+}
+
+.dmbr,
+.taste-container {
+	box-shadow: none !important;
+	border: none !important;
+	background-color: rgba(255, 255, 255, 0.0) !important;
+}
+
+#billboard {
+	min-width: 200px;
+}
+
+#billboard.responsive-billboard .billboard-content .billboard-info {
+	margin-left: -69px !important;
+}
+
+#billboard .billboard-pane .billboard-background.licensed .container .layer {
+	right: 135px !important; 
+}
+
 #footer {
 	clear: both;
 	float: left;
@@ -47,6 +75,8 @@
 .added-description {
 	position: fixed;
 	width: 35%;
+	min-width: 320px;
+	max-width: 900px;
 	top: 0;
 	bottom: 0;
 	right: 0;
