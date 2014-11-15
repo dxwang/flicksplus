@@ -14,6 +14,8 @@
       "matches": [
         "http://www.netflix.com/WiHome*",
         "https://www.netflix.com/WiHome*",
+        "http://www.netflix.com/WiAgain*",
+        "https://www.netflix.com/WiAgain*",
         "http://www.netflix.com/WiAltGenre*",
         "https://www.netflix.com/WiAltGenre*",
         "http://www.netflix.com/WiGenre*",
