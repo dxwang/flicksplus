@@ -23,9 +23,7 @@
         "http://www.netflix.com/WiSimilarsByViewType*",
         "https://www.netflix.com/WiSimilarsByViewType*",
         "http://www.netflix.com/search*",
-        "https://www.netflix.com/search*",
-        "file:///Users/TJ/Google%20Drive/Projects/dataweek/flicks-/Sample%20with%20Promo%20Banner/Netflix.html",
-        "file:///Users/TJ/Google%20Drive/Projects/dataweek/flicks-/Sample%20with%20Vote%20Banner/Netflix.html"
+        "https://www.netflix.com/search*"
       ],
       "js": ["jquery.min.js", "flicksplus.js"],
       "css": ["flicksplus.css"]
@@ -40,6 +38,7 @@
        "img/golden-icon.png",
        "img/emmys-icon.png",
        "img/spinner.png",
+       "img/toggler.png",
        "fonts/opensans-semibold-webfont.eot",
        "fonts/opensans-semibold-webfont.svg",
        "fonts/opensans-semibold-webfont.ttf",

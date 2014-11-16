@@ -177,6 +177,8 @@ function cineplusView() {
     this.movieId = '';
     $('.connect-overlay.connect').remove();
     $('body').append('<div class="added-description"><div class="nested-div"><h2 class="opening-title">What would you like to watch today?</h2></div></div>');
+    $('body').addClass('cineplus').append('<div class="cineplusToggler"></div>');
+    $('#BobMovie, #bob-container').css('margin-top', '-999px');
 
     this.reset = function(element) {
         $('.opening-title').hide();
@@ -189,11 +191,32 @@ function cineplusView() {
             '<div class="awards"></div>',
             '<div class="info-blob"></div>'
         ].join(''));
-        $('#BobMovie, #bob-container').css('margin-top', '-999px');
     };
 
     this.setMovieId = function(movieId) {
         this.movieId = movieId;
+    }
+
+    this.hideCineplusModal = function() {
+        $('.added-description').animate({
+            right: "-35%"
+        }, 150, function(){
+            $('body').removeClass('cineplus');
+            $('.cineplusToggler').addClass('rotated');
+            $('.cineplusToggler').removeClass('rotated-rev');
+        });   
+        $('#BobMovie, #bob-container').css('margin-top', '0');
+    };
+
+    this.showCineplusModal = function() {
+        $('.cineplusToggler').addClass('rotated-rev');
+        $('body').addClass('cineplus');
+        $('.added-description').animate({
+            right: "0%"
+        }, 150, function(){
+            $('.cineplusToggler').removeClass('rotated-rev, rotated');
+        });
+        $('#BobMovie, #bob-container').css('margin-top', '-999px');
     }
 
     this.addMoreInfoButton = function(element, movieId) {
@@ -306,7 +329,7 @@ function cineplusController() {
     });
     this.netflixObserverConfig = { attributes: true };
 
-    this.start = function() {
+    this.attachHoverHandlers = function() {
         $(document).on('mouseenter', '.boxShot, .lockup', function() {
             var hoverMovieId = $(this).find('.playLink, .playHover').attr('data-uitrack').split(',')[0];
             controller.view.addMoreInfoButton($(this), hoverMovieId);
@@ -327,4 +350,21 @@ function cineplusController() {
             controller.model.getMovieInfo(movieId, controller.view.displayMovieData.bind(controller.view));
         });
     };
+
+    this.detachHoverHandlers = function() {
+        $(document).off('mouseenter, mouseleave, mouseover');
+    };
+
+    this.start = function() {
+        this.attachHoverHandlers();
+        $('.cineplusToggler').click(function(){
+        if($('body').hasClass('cineplus')){
+            controller.view.hideCineplusModal();
+            controller.detachHoverHandlers();
+        } else {
+            controller.view.showCineplusModal();
+            controller.attachHoverHandlers();
+        };
+    });
+    }
 };
