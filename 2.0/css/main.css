@@ -1,12 +1,15 @@
 #imdb-rating, #rt-rating {
-	width: 3.4rem;
+	width: 3.1rem;
 	background-image: url('../img/imdb.png');
-	background-size: contain;
+	background-size: 1.2rem;
 	background-repeat: no-repeat;
 	text-align: right;
+	background-position: left center;
+	margin-left: 0.3rem;
 }
 
 #rt-rating {
-	width: 4.05rem;
+	margin-left: 0.1rem;
+	width: 3.8rem;
 	background-image: url('../img/rotten-tomatoes.png');
 }
