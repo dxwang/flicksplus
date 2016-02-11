@@ -101,37 +101,67 @@ function cineplusView() {
     };
 };
 
-
 function cineplusController() {
-    var controller = this;
+    var ctl = this;
     this.view = new cineplusView();
     this.model = new cineplusModel();
 
+    this.activeInfoBoxCls = '.jawBoneOpenContainer:not(.jawBoneOpen-leave)';    // The info box for a movie on each row of the page.
+    this.billboardCls = '.billboard';   // Info box for a movie in the slideshow on the top of the home page.
+    this.billboardCtnCls = '.billboard-row';    // Slideshow of movies on the top of the home page.
+    this.featuredCls = '.jawBoneContainer'; // Info box for the featured movie on the top of the movie page.
+    this.galleryCls = '.gallery .galleryContent';   // The static gallery view on the browse pages.
+    this.infoBoxCls = '.jawBoneContent';    // The info box container for a movie on each row of the page.
+    this.loadableCls = '.lolomo';   // The infinite loading gallery view on the home page.
+    this.loadableGalleryCls = '.galleryLockups';    // The infinite loading gallery on the browse pages.
+    this.mainViewCls = '.mainView'; // Main view, always on page.
+    this.searchGalleryCls = 'div .gallery .galleryContent'; // The static gallery view on the search pages.
+
     this.start = function() {
-        // TODO: make this work for genre and search pages.
+        var mainViewEl = document.querySelector(ctl.mainViewCls);
+        if (mainViewEl) {
+            ctl.mainViewInit(mainViewEl);
+            ctl.startObserver(mainViewEl, ctl.mainViewMutationHandler);
+        }
+    };
 
-        // Populate ratings for the featured movie if applicable (on movie pages)
-        var topInfoBox = document.querySelector('.mainView .jawBoneContainer');
-        if (topInfoBox) {
-            controller.addRatings(topInfoBox);
+    this.mainViewInit = function(element) {
+        var loadableEl = element.querySelector(ctl.loadableCls);
+        var galleryEl = element.querySelector(ctl.galleryCls);
+        var featuredEl = element.querySelector(ctl.featuredCls);
+        var billboardCtnEl = element.querySelector(ctl.billboardCtnCls);
+        var searchGalleryEl = element.querySelector(ctl.searchGalleryCls);
+
+        // Populate ratings for the gallery info boxes.
+        if (loadableEl) {
+            ctl.galleryInit(loadableEl);
+        } else if (searchGalleryEl) {
+            ctl.startObserver(searchGalleryEl, ctl.galleryMutationHandler);
+            ctl.startObserver(element.querySelector('div'), ctl.searchGalleryMutationHandler);
+        } else if (galleryEl) {
+            ctl.startObserver(galleryEl, ctl.galleryMutationHandler);
         }
 
-        // Listen to the billboard pane if applicable (on home page)
-        var billboard = document.querySelector('.mainView .billboard-row');
-        if (billboard) {
-            controller.addRatings(billboard);
-            controller.startObserver(billboard, controller.billboardMutationHandler);
+        // Populate ratings for the featured movie info box.
+        if (featuredEl) {
+            ctl.addRatings(featuredEl);
         }
 
-        // Listen to the 4 initial info boxes
-        var infoBoxes = document.getElementsByClassName('jawBoneContent');
+        // Populate ratings for the movie slide show info boxes.
+        if (billboardCtnEl) {
+            ctl.addRatings(billboardCtnEl);
+            ctl.startObserver(billboardCtnEl, ctl.billboardMutationHandler);
+        }
+    };
+
+    this.galleryInit = function(element) {
+        // Listen to the info boxes already loaded and as they load.
+        ctl.startObserver(element, ctl.cardLoadMutationHandler);
+
+        var infoBoxes = element.querySelectorAll(ctl.infoBoxCls);
         for (var i = 0; i < infoBoxes.length; i++) {
-            controller.startObserver(infoBoxes[i], controller.cardClickMutationHandler);
+            ctl.startObserver(infoBoxes[i], ctl.cardClickMutationHandler);
         }
-
-        // Listen to info boxes as they load
-        var infoBoxContainer = document.querySelector('.lolomo');
-        controller.startObserver(infoBoxContainer, controller.cardLoadMutationHandler);
     };
 
     this.startObserver = function(element, mutationHandler) {
@@ -141,33 +171,73 @@ function cineplusController() {
         observer.observe(element, config);
     };
 
-    this.billboardMutationHandler = function(mutations) {
-        // Mutation handler for .billboard-row (slideshow of movies at the top)
+    this.galleryMutationHandler = function(mutations) {
         mutations.forEach(function(mutation) {
-            if (mutation.addedNodes.length > 0 &&
-                mutation.previousSibling === document.querySelector('.nav-layer.nav-dots')) {
-                controller.addRatings(mutation.target);
+            if (mutation.addedNodes.length > 0) {
+                var galleryEl = mutation.target.querySelector(ctl.loadableGalleryCls);
+                if (galleryEl) {
+                    ctl.galleryInit(galleryEl);
+                }
+            }
+        });
+    }
+
+    this.searchGalleryMutationHandler = function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.addedNodes.length > 0) {
+                var galleryEl = mutation.target.querySelector(ctl.galleryCls);
+                if (galleryEl) {
+                    ctl.startObserver(galleryEl, ctl.galleryMutationHandler);
+                }
+            }
+        });
+    }
+
+    this.outputMutationHandler = function(mutations) {
+        mutations.forEach(function(mutation) {
+            console.log(mutation);
+        });
+    }
+
+    this.mainViewMutationHandler = function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.removedNodes.length > 0) {
+                ctl.mainViewInit(mutation.target);
+            }
+        });
+    }
+
+    this.billboardMutationHandler = function(mutations) {
+        // Mutation handler for billboard (slideshow of movies at the top)
+        mutations.forEach(function(mutation) {
+            var billboardEl = mutation.target.querySelector(ctl.billboardCls);
+            if (billboardEl) {
+                ctl.addRatings(billboardEl);
             }
         });
     }
 
     this.cardLoadMutationHandler = function(mutations) {
-        // Mutation handler for .lolomo (loads additional rows)
+        // Mutation handler for info boxes being loaded
         mutations.forEach(function(mutation) {
             for (var i = 0; i < mutation.addedNodes.length; i++) {
-                var infoBox = mutation.addedNodes[i].querySelector('.jawBoneContent');
-                controller.startObserver(infoBox, controller.cardClickMutationHandler);
+                var infoBox = mutation.addedNodes[i].querySelector(ctl.infoBoxCls);
+                if (infoBox) {
+                    ctl.startObserver(infoBox, ctl.cardClickMutationHandler);
+                }
             }
         });
     };
 
     this.cardClickMutationHandler = function(mutations) {
         // Mutation handler for .jawBoneContent (changes for every row)
-        var activeInfoBox = document.querySelector('.jawBoneOpenContainer:not(.jawBoneOpen-leave)');
-        controller.startObserver(activeInfoBox, controller.cardHoverMutationHandler);
         mutations.forEach(function(mutation) {
             if (mutation.addedNodes.length > 0) {
-                controller.addRatings(activeInfoBox);
+                var infoBoxEl = mutation.target.querySelector(ctl.activeInfoBoxCls);
+                if (infoBoxEl) {
+                    ctl.startObserver(infoBoxEl, ctl.cardHoverMutationHandler);
+                    ctl.addRatings(infoBoxEl);
+                }
             }
         });
     };
@@ -176,15 +246,15 @@ function cineplusController() {
         // Mutation handler for .jawBoneOpenContainer element (changes for every movie)
         mutations.forEach(function(mutation) {
             if (mutation.removedNodes.length > 0) {
-                controller.addRatings(mutation.target);
+                ctl.addRatings(mutation.target);
             }
         });
     };
 
     this.addRatings = function(infoBox) {
-        var title = controller.view.getTitle(infoBox);
-        var year = controller.view.getYear(infoBox);
-        controller.view.displayRatings(infoBox);
-        controller.model.getRatings(title, year, controller.view.displayRatings, infoBox);
+        var title = ctl.view.getTitle(infoBox);
+        var year = ctl.view.getYear(infoBox);
+        ctl.view.displayRatings(infoBox);
+        ctl.model.getRatings(title, year, ctl.view.displayRatings, infoBox);
     }
 };
